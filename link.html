@@ -67,7 +67,16 @@ a.card:hover{
 </div>
 
 <a class="back" href="index.html">← 返回首页</a>
+<script>
+  const box = document.getElementById("linkBox");
+  const links = Array.from(box.querySelectorAll("a.card"));
 
+  links.sort((a, b) => {
+    return a.textContent.localeCompare(b.textContent);
+  });
+
+  links.forEach(link => box.appendChild(link));
+</script>
 </body>
 </html>
 

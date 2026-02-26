@@ -1,1 +1,817 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Literature Library</title>
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#0f1a30; --panel2:#0c162b;
+      --text:#e8eefc; --muted:#9fb0d0; --line:#233454;
+      --brand:#6aa6ff; --danger:#ff6a6a; --ok:#58d48f; --warn:#ffcc66;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(88,212,143,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      padding:28px 18px 18px;
+      max-width:1200px; margin:0 auto;
+      display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;
+    }
+    .title h1{margin:0; font-size:22px; letter-spacing:.2px}
+    .title p{margin:6px 0 0; color:var(--muted); font-size:13px}
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      color:var(--text); padding:10px 12px;
+      border-radius:12px; cursor:pointer;
+      box-shadow: var(--shadow);
+      font-size:13px;
+    }
+    .btn:hover{border-color:#2f4a7d}
+    .btn.primary{border-color:rgba(106,166,255,.55)}
+    .btn.danger{border-color:rgba(255,106,106,.55)}
+    .btn.ok{border-color:rgba(88,212,143,.55)}
+    .btn small{color:var(--muted); font-weight:400}
+    main{max-width:1200px; margin:0 auto; padding:0 18px 40px}
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .filters{
+      padding:14px;
+      display:grid;
+      grid-template-columns: 1.4fr .8fr .8fr .7fr;
+      gap:10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(15,26,48,.65);
+    }
+    @media (max-width: 900px){
+      .filters{grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width: 520px){
+      .filters{grid-template-columns:1fr; }
+    }
+    input, select, textarea{
+      width:100%;
+      background:rgba(11,18,32,.65);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      outline:none;
+    }
+    input::placeholder, textarea::placeholder{color:rgba(159,176,208,.65)}
+    textarea{min-height:90px; resize:vertical}
+    .table-wrap{overflow:auto}
+    table{width:100%; border-collapse:collapse; min-width:980px}
+    th, td{
+      padding:12px 12px;
+      border-bottom:1px solid rgba(35,52,84,.7);
+      vertical-align:top;
+      font-size:13px;
+    }
+    th{
+      position:sticky; top:0;
+      background:rgba(12,22,43,.95);
+      color:rgba(232,238,252,.9);
+      text-align:left;
+      z-index:2;
+      white-space:nowrap;
+    }
+    tr:hover td{background:rgba(106,166,255,.05)}
+    .muted{color:var(--muted)}
+    .mono{font-family:var(--mono); font-size:12px}
+    .tag{
+      display:inline-flex; align-items:center;
+      gap:6px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(106,166,255,.35);
+      background:rgba(106,166,255,.08);
+      color:rgba(232,238,252,.92);
+      margin:2px 6px 2px 0;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .iconbtn{
+      padding:8px 10px; border-radius:10px; border:1px solid var(--line);
+      background:rgba(255,255,255,.03); color:var(--text);
+      cursor:pointer; font-size:12px;
+    }
+    .iconbtn:hover{border-color:#2f4a7d}
+    .iconbtn.danger{border-color:rgba(255,106,106,.45)}
+    .iconbtn.ok{border-color:rgba(88,212,143,.45)}
+    .foot{
+      padding:12px 14px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      color:var(--muted); font-size:12px;
+      background:rgba(15,26,48,.55);
+    }
 
+    /* modal */
+    .modal{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.55);
+      display:none; align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .modal.open{display:flex}
+    .card{
+      width:min(920px, 100%);
+      background:linear-gradient(180deg, rgba(15,26,48,.95), rgba(12,22,43,.95));
+      border:1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .card header{
+      padding:16px 16px 10px;
+      max-width:none; margin:0;
+      align-items:center;
+    }
+    .card header h2{margin:0; font-size:16px}
+    .card header .sub{margin:4px 0 0; font-size:12px; color:var(--muted)}
+    .card .body{
+      padding:14px 16px 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 760px){
+      .card .body{grid-template-columns:1fr}
+    }
+    .span2{grid-column:1/-1}
+    .row{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    label{font-size:12px; color:rgba(159,176,208,.95)}
+    .card .footer{
+      padding:12px 16px 16px;
+      display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
+      border-top:1px solid rgba(35,52,84,.8);
+      background:rgba(15,26,48,.65);
+    }
+    .hint{
+      font-size:12px; color:var(--muted);
+      margin-top:6px;
+      line-height:1.45;
+    }
+    .kbd{
+      font-family:var(--mono);
+      border:1px solid rgba(159,176,208,.3);
+      padding:2px 6px; border-radius:8px;
+      background:rgba(255,255,255,.04);
+      color:rgba(232,238,252,.85);
+    }
+    .warnbox{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px dashed rgba(255,204,102,.5);
+      background:rgba(255,204,102,.06);
+      color:rgba(232,238,252,.88);
+      font-size:12px;
+      line-height:1.5;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="title">
+    <h1>Literature Library</h1>
+    <p>本页数据保存在本浏览器的 <span class="mono">localStorage</span>。可随时导出 JSON 备份。</p>
+  </div>
+  <div class="toolbar">
+    <button class="btn primary" id="btnAdd">＋ 新增文献</button>
+    <button class="btn" id="btnExport">导出 JSON</button>
+    <button class="btn" id="btnImport">导入 JSON</button>
+    <button class="btn danger" id="btnClear">清空全部</button>
+  </div>
+</header>
+
+<main>
+  <div class="panel">
+    <div class="filters">
+      <input id="q" placeholder="搜索：标题 / 作者 / DOI / 期刊 / 标签 / 备注 …  (支持模糊匹配)" />
+      <select id="tagFilter">
+        <option value="">标签筛选：全部</option>
+      </select>
+      <select id="sortBy">
+        <option value="added_desc">排序：最近添加</option>
+        <option value="added_asc">排序：最早添加</option>
+        <option value="year_desc">排序：年份（新→旧）</option>
+        <option value="year_asc">排序：年份（旧→新）</option>
+        <option value="title_asc">排序：标题（A→Z）</option>
+        <option value="title_desc">排序：标题（Z→A）</option>
+      </select>
+      <select id="typeFilter">
+        <option value="">类型：全部</option>
+        <option value="paper">论文</option>
+        <option value="review">综述</option>
+        <option value="book">书籍</option>
+        <option value="preprint">预印本</option>
+        <option value="thesis">学位论文</option>
+        <option value="other">其他</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36%">标题</th>
+            <th style="width:18%">作者</th>
+            <th style="width:9%">年份</th>
+            <th style="width:13%">期刊/会议</th>
+            <th style="width:10%">DOI</th>
+            <th style="width:10%">链接</th>
+            <th style="width:14%">标签</th>
+            <th style="width:10%">操作</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="foot">
+      <div>共 <span id="count">0</span> 条</div>
+      <div class="muted">
+        快捷键：<span class="kbd">/</span> 聚焦搜索，<span class="kbd">N</span> 新增
+      </div>
+    </div>
+  </div>
+
+  <div class="warnbox">
+    <b>收藏用书签脚本（推荐）：</b><br/>
+    把下面这段拖到书签栏，或新建书签后把“网址/URL”粘进去。你在任何文献网页点它，会打开本页并带入标题/URL：<br/>
+    <span class="mono" id="bookmarkletText"></span>
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="card" role="dialog" aria-modal="true">
+    <header>
+      <div>
+        <h2 id="modalTitle">新增文献</h2>
+        <div class="sub">建议：标题/URL/DOI 至少填一个。标签用逗号分隔。</div>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
+        <button class="btn" id="btnClose">关闭</button>
+      </div>
+    </header>
+
+    <div class="body">
+      <div class="row span2">
+        <label>标题</label>
+        <input id="f_title" placeholder="例如：Transient micellar environments enable..." />
+      </div>
+
+      <div class="row">
+        <label>作者（可用 ; 分隔）</label>
+        <input id="f_authors" placeholder="例如：Wang; Li; Smith" />
+      </div>
+
+      <div class="row">
+        <label>年份</label>
+        <input id="f_year" placeholder="例如：2024" inputmode="numeric" />
+      </div>
+
+      <div class="row">
+        <label>期刊/会议</label>
+        <input id="f_venue" placeholder="例如：Nat. Rev. Chem." />
+      </div>
+
+      <div class="row">
+        <label>类型</label>
+        <select id="f_type">
+          <option value="paper">论文</option>
+          <option value="review">综述</option>
+          <option value="book">书籍</option>
+          <option value="preprint">预印本</option>
+          <option value="thesis">学位论文</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label>DOI</label>
+        <input id="f_doi" placeholder="10.xxxx/xxxxxx" />
+        <div class="hint">可直接粘贴 DOI 或 doi.org 链接。</div>
+      </div>
+
+      <div class="row span2">
+        <label>URL（原文/网页）</label>
+        <input id="f_url" placeholder="https://..." />
+      </div>
+
+      <div class="row span2">
+        <label>标签（逗号分隔）</label>
+        <input id="f_tags" placeholder="DCL, micelle, replication, chirality" />
+      </div>
+
+      <div class="row span2">
+        <label>备注</label>
+        <textarea id="f_notes" placeholder="你为什么收藏它？关键图/关键结论？"></textarea>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button class="btn danger" id="btnDelete" style="display:none;">删除</button>
+      <button class="btn" id="btnCancel">取消</button>
+      <button class="btn ok" id="btnSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="application/json" style="display:none"/>
+
+<script>
+(() => {
+  const STORAGE_KEY = "literature_items_v1";
+
+  /** @type {Array<LitItem>} */
+  let items = [];
+
+  /** @type {string|null} */
+  let editingId = null;
+
+  /** @typedef {{
+   *  id: string,
+   *  title: string,
+   *  authors: string,
+   *  year: string,
+   *  venue: string,
+   *  doi: string,
+   *  url: string,
+   *  tags: string[],
+   *  notes: string,
+   *  type: string,
+   *  addedAt: number,
+   *  updatedAt: number
+   * }} LitItem */
+
+  // Elements
+  const tbody = document.getElementById("tbody");
+  const countEl = document.getElementById("count");
+  const qEl = document.getElementById("q");
+  const tagFilterEl = document.getElementById("tagFilter");
+  const sortByEl = document.getElementById("sortBy");
+  const typeFilterEl = document.getElementById("typeFilter");
+
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const btnAdd = document.getElementById("btnAdd");
+  const btnClose = document.getElementById("btnClose");
+  const btnCancel = document.getElementById("btnCancel");
+  const btnSave = document.getElementById("btnSave");
+  const btnDelete = document.getElementById("btnDelete");
+  const btnExport = document.getElementById("btnExport");
+  const btnImport = document.getElementById("btnImport");
+  const btnClear = document.getElementById("btnClear");
+  const fileInput = document.getElementById("fileInput");
+
+  // Form fields
+  const f_title = document.getElementById("f_title");
+  const f_authors = document.getElementById("f_authors");
+  const f_year = document.getElementById("f_year");
+  const f_venue = document.getElementById("f_venue");
+  const f_doi = document.getElementById("f_doi");
+  const f_url = document.getElementById("f_url");
+  const f_tags = document.getElementById("f_tags");
+  const f_notes = document.getElementById("f_notes");
+  const f_type = document.getElementById("f_type");
+
+  function uuid() {
+    // short deterministic enough for local usage
+    return "lit_" + Math.random().toString(16).slice(2) + "_" + Date.now().toString(16);
+  }
+
+  function normalizeDoi(input) {
+    const s = (input || "").trim();
+    if (!s) return "";
+    // remove doi.org prefix if present
+    return s.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "").trim();
+  }
+
+  function normalizeUrl(url) {
+    const s = (url || "").trim();
+    if (!s) return "";
+    // if user pasted doi only into url, fix it
+    if (/^10\.\d{4,9}\//.test(s)) return "https://doi.org/" + s;
+    return s;
+  }
+
+  function parseTags(s) {
+    return (s || "")
+      .split(",")
+      .map(t => t.trim())
+      .filter(Boolean);
+  }
+
+  function saveStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }
+
+  function loadStorage() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      items = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(items)) items = [];
+    } catch {
+      items = [];
+    }
+  }
+
+  function allTags() {
+    const set = new Set();
+    items.forEach(it => (it.tags || []).forEach(t => set.add(t)));
+    return Array.from(set).sort((a,b) => a.localeCompare(b, "zh-Hans-CN"));
+  }
+
+  function refreshTagFilter() {
+    const current = tagFilterEl.value;
+    const tags = allTags();
+    tagFilterEl.innerHTML = `<option value="">标签筛选：全部</option>` + tags.map(t =>
+      `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`
+    ).join("");
+    if (tags.includes(current)) tagFilterEl.value = current;
+  }
+
+  function escapeHtml(s) {
+    return (s ?? "").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function matchText(it, q) {
+    const blob = [
+      it.title, it.authors, it.year, it.venue, it.doi, it.url,
+      (it.tags||[]).join(" "), it.notes, it.type
+    ].join(" ").toLowerCase();
+    return blob.includes(q);
+  }
+
+  function sortItems(list) {
+    const mode = sortByEl.value;
+    const copy = [...list];
+
+    const byTitle = (a,b) => (a.title||"").localeCompare((b.title||""), "en");
+    const byYear = (a,b) => (parseInt(a.year||"0",10) || 0) - (parseInt(b.year||"0",10) || 0);
+
+    if (mode === "added_desc") copy.sort((a,b) => b.addedAt - a.addedAt);
+    else if (mode === "added_asc") copy.sort((a,b) => a.addedAt - b.addedAt);
+    else if (mode === "year_desc") copy.sort((a,b) => byYear(b,a));
+    else if (mode === "year_asc") copy.sort((a,b) => byYear(a,b));
+    else if (mode === "title_asc") copy.sort((a,b) => byTitle(a,b));
+    else if (mode === "title_desc") copy.sort((a,b) => byTitle(b,a));
+    return copy;
+  }
+
+  function filteredItems() {
+    const q = (qEl.value || "").trim().toLowerCase();
+    const tag = tagFilterEl.value;
+    const type = typeFilterEl.value;
+
+    let list = items;
+
+    if (q) list = list.filter(it => matchText(it, q));
+    if (tag) list = list.filter(it => (it.tags || []).includes(tag));
+    if (type) list = list.filter(it => (it.type || "") === type);
+
+    return sortItems(list);
+  }
+
+  function render() {
+    refreshTagFilter();
+    const list = filteredItems();
+    countEl.textContent = String(list.length);
+
+    tbody.innerHTML = list.map(it => {
+      const doi = normalizeDoi(it.doi);
+      const doiLink = doi ? `https://doi.org/${encodeURIComponent(doi)}` : "";
+      const url = normalizeUrl(it.url || (doi ? doiLink : ""));
+
+      const tagsHtml = (it.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:600; line-height:1.35;">${escapeHtml(it.title || "(无标题)")}</div>
+            <div class="muted" style="margin-top:6px; line-height:1.35;">
+              ${it.notes ? escapeHtml(it.notes).slice(0, 140) + (it.notes.length>140 ? "…" : "") : ""}
+            </div>
+            <div class="muted mono" style="margin-top:6px;">
+              added: ${new Date(it.addedAt).toLocaleString()}
+              ${it.updatedAt && it.updatedAt !== it.addedAt ? ` · updated: ${new Date(it.updatedAt).toLocaleString()}` : ""}
+            </div>
+          </td>
+          <td>${escapeHtml(it.authors || "")}</td>
+          <td>${escapeHtml(it.year || "")}</td>
+          <td>${escapeHtml(it.venue || "")}<div class="muted" style="margin-top:6px;">${escapeHtml(it.type || "")}</div></td>
+          <td class="mono">
+            ${doi ? `<a href="${doiLink}" target="_blank" rel="noopener">${escapeHtml(doi)}</a>` : ""}
+          </td>
+          <td>
+            ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">Open</a>` : ""}
+          </td>
+          <td>${tagsHtml}</td>
+          <td>
+            <div class="actions">
+              <button class="iconbtn ok" data-act="edit" data-id="${it.id}">编辑</button>
+              <button class="iconbtn danger" data-act="del" data-id="${it.id}">删除</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    if (!tbody.innerHTML) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8" style="padding:18px;">
+            <div style="font-weight:600;">暂无数据</div>
+            <div class="muted" style="margin-top:6px; line-height:1.6;">
+              点右上角 <b>新增文献</b>，或用下方书签脚本从外部网页快速带入标题/URL。
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function openModal(mode, item) {
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+
+    if (mode === "new") {
+      editingId = null;
+      modalTitle.textContent = "新增文献";
+      btnDelete.style.display = "none";
+      f_title.value = item?.title || "";
+      f_authors.value = item?.authors || "";
+      f_year.value = item?.year || "";
+      f_venue.value = item?.venue || "";
+      f_doi.value = item?.doi || "";
+      f_url.value = item?.url || "";
+      f_tags.value = (item?.tags || []).join(", ");
+      f_notes.value = item?.notes || "";
+      f_type.value = item?.type || "paper";
+    } else {
+      editingId = item.id;
+      modalTitle.textContent = "编辑文献";
+      btnDelete.style.display = "inline-block";
+      f_title.value = item.title || "";
+      f_authors.value = item.authors || "";
+      f_year.value = item.year || "";
+      f_venue.value = item.venue || "";
+      f_doi.value = item.doi || "";
+      f_url.value = item.url || "";
+      f_tags.value = (item.tags || []).join(", ");
+      f_notes.value = item.notes || "";
+      f_type.value = item.type || "paper";
+    }
+
+    setTimeout(() => f_title.focus(), 0);
+  }
+
+  function closeModal() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  function getFormItem() {
+    const doi = normalizeDoi(f_doi.value);
+    const url = normalizeUrl(f_url.value);
+
+    return {
+      title: (f_title.value || "").trim(),
+      authors: (f_authors.value || "").trim(),
+      year: (f_year.value || "").trim(),
+      venue: (f_venue.value || "").trim(),
+      doi,
+      url,
+      tags: parseTags(f_tags.value),
+      notes: (f_notes.value || "").trim(),
+      type: f_type.value || "paper",
+    };
+  }
+
+  function upsert() {
+    const data = getFormItem();
+    const now = Date.now();
+
+    if (!data.title && !data.doi && !data.url) {
+      alert("标题 / DOI / URL 至少填一个。");
+      return;
+    }
+
+    if (!editingId) {
+      /** @type {LitItem} */
+      const it = {
+        id: uuid(),
+        ...data,
+        addedAt: now,
+        updatedAt: now
+      };
+      items.unshift(it);
+    } else {
+      const idx = items.findIndex(x => x.id === editingId);
+      if (idx >= 0) {
+        items[idx] = {
+          ...items[idx],
+          ...data,
+          updatedAt: now
+        };
+      }
+    }
+
+    saveStorage();
+    closeModal();
+    render();
+  }
+
+  function removeItem(id) {
+    const it = items.find(x => x.id === id);
+    if (!it) return;
+    if (!confirm(`确认删除这条记录？\n\n${it.title || "(无标题)"}`)) return;
+    items = items.filter(x => x.id !== id);
+    saveStorage();
+    render();
+  }
+
+  function exportJson() {
+    const blob = new Blob([JSON.stringify(items, null, 2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "literature_backup.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function importJsonFromFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!Array.isArray(parsed)) throw new Error("JSON 顶层必须是数组");
+        // minimal validation & merge by id
+        const incoming = parsed
+          .filter(x => x && typeof x === "object")
+          .map(x => ({
+            id: x.id || uuid(),
+            title: x.title || "",
+            authors: x.authors || "",
+            year: x.year || "",
+            venue: x.venue || "",
+            doi: x.doi || "",
+            url: x.url || "",
+            tags: Array.isArray(x.tags) ? x.tags : parseTags(x.tags || ""),
+            notes: x.notes || "",
+            type: x.type || "paper",
+            addedAt: typeof x.addedAt === "number" ? x.addedAt : Date.now(),
+            updatedAt: typeof x.updatedAt === "number" ? x.updatedAt : (typeof x.addedAt === "number" ? x.addedAt : Date.now())
+          }));
+
+        const map = new Map(items.map(x => [x.id, x]));
+        incoming.forEach(x => map.set(x.id, x));
+        items = Array.from(map.values()).sort((a,b) => b.addedAt - a.addedAt);
+
+        saveStorage();
+        render();
+        alert(`导入完成：合并后共 ${items.length} 条。`);
+      } catch (e) {
+        alert("导入失败： " + (e?.message || e));
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function clearAll() {
+    if (!confirm("确认清空全部文献？此操作不可撤销（除非你有 JSON 备份）。")) return;
+    items = [];
+    saveStorage();
+    render();
+  }
+
+  // Bookmarklet: open this page with ?title=...&url=...
+  function buildBookmarklet() {
+    const target = new URL(location.href);
+    target.search = "";
+    target.hash = "";
+    const js =
+      "javascript:(()=>{const t=encodeURIComponent(document.title||'');" +
+      "const u=encodeURIComponent(location.href||'');" +
+      "window.open('" + target.toString().replaceAll("'", "\\'") + "?add=1&title='+t+'&url='+u,'_blank');})();";
+    return js;
+  }
+
+  function maybeAutoAddFromQuery() {
+    const p = new URLSearchParams(location.search);
+    if (p.get("add") !== "1") return;
+
+    const title = p.get("title") ? decodeURIComponent(p.get("title")) : "";
+    const url = p.get("url") ? decodeURIComponent(p.get("url")) : "";
+
+    // Prefill & open modal
+    openModal("new", { title, url, type: "paper" });
+
+    // Clean URL so refresh won't reopen
+    const clean = new URL(location.href);
+    clean.searchParams.delete("add");
+    clean.searchParams.delete("title");
+    clean.searchParams.delete("url");
+    history.replaceState({}, "", clean.toString());
+  }
+
+  // Events
+  btnAdd.addEventListener("click", () => openModal("new"));
+  btnClose.addEventListener("click", closeModal);
+  btnCancel.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+  btnSave.addEventListener("click", upsert);
+  btnDelete.addEventListener("click", () => {
+    if (!editingId) return;
+    removeItem(editingId);
+    closeModal();
+  });
+
+  tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const id = btn.getAttribute("data-id");
+    const act = btn.getAttribute("data-act");
+    const it = items.find(x => x.id === id);
+    if (!it) return;
+
+    if (act === "edit") openModal("edit", it);
+    if (act === "del") removeItem(id);
+  });
+
+  [qEl, tagFilterEl, sortByEl, typeFilterEl].forEach(el => {
+    el.addEventListener("input", render);
+    el.addEventListener("change", render);
+  });
+
+  btnExport.addEventListener("click", exportJson);
+
+  btnImport.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => {
+    const f = fileInput.files?.[0];
+    if (f) importJsonFromFile(f);
+    fileInput.value = "";
+  });
+
+  btnClear.addEventListener("click", clearAll);
+
+  // shortcuts
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !modal.classList.contains("open")) {
+      e.preventDefault();
+      qEl.focus();
+    }
+    if ((e.key === "n" || e.key === "N") && !modal.classList.contains("open")) {
+      openModal("new");
+    }
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+
+  // init
+  loadStorage();
+  render();
+
+  // bookmarklet text
+  const bm = buildBookmarklet();
+  document.getElementById("bookmarkletText").textContent = bm;
+
+  // auto-add
+  maybeAutoAddFromQuery();
+})();
+</script>
+</body>
+</html>

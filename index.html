@@ -1,27 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>My First Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yangjh0421 | 个人主页</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
-      background-color: #f2f4f8;
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --primary:#2563eb;
     }
-    h1 {
-      color: #2c3e50;
-      font-size: 40px;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.6;
     }
-    p {
-      color: #555;
-      font-size: 18px;
+    a{ color:inherit; text-decoration:none; }
+    .container{ max-width:980px; margin:0 auto; padding:0 20px; }
+
+    /* 顶部导航 */
+    header{
+      position:sticky; top:0;
+      background:rgba(246,247,251,0.9);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{ font-weight:700; letter-spacing:0.2px; }
+    .navlinks{
+      display:flex; gap:16px; flex-wrap:wrap;
+      font-size:14px; color:var(--muted);
+    }
+    .navlinks a:hover{ color:var(--primary); }
+
+    /* 主体区块 */
+    main{ padding:28px 0 60px; }
+    .hero{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:26px;
+    }
+    .hero h1{ margin:0 0 6px; font-size:28px; }
+    .hero p{ margin:0; color:var(--muted); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    section.card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:20px;
+    }
+    section.card h2{
+      margin:0 0 10px;
+      font-size:18px;
+    }
+    .muted{ color:var(--muted); }
+
+    /* 项目列表占位 */
+    .list{ display:flex; flex-direction:column; gap:10px; }
+    .item{
+      border:1px dashed var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+    .item .title{ font-weight:700; }
+    .item .desc{ color:var(--muted); font-size:14px; margin-top:4px; }
+
+    /* 页脚 */
+    footer{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+      color:var(--muted);
+      font-size:14px;
     }
   </style>
 </head>
+
 <body>
-  <h1>Welcome to My Website</h1>
-  <p>这是我用 GitHub Pages 创建的第一个网页。</p>
+  <!-- 顶部导航 -->
+  <header>
+    <div class="container nav">
+      <div class="brand">yangjh0421</div>
+      <nav class="navlinks">
+        <a href="#about">关于</a>
+        <a href="#projects">项目</a>
+        <a href="#notes">笔记</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 头图/开场 -->
+    <div class="hero">
+      <h1>你好，我是 <span style="color:var(--primary)">yangjh0421</span></h1>
+      <p>这里是我的个人主页（轮廓版）。后续会放：简介、项目、笔记、联系方式。</p>
+    </div>
+
+    <div class="grid">
+      <!-- 左侧：主要内容 -->
+      <div>
+        <section id="about" class="card">
+          <h2>关于我</h2>
+          <p class="muted">（占位）一句话介绍自己：你是谁、做什么、擅长什么。</p>
+          <ul class="muted">
+            <li>方向/兴趣：……</li>
+            <li>技能/工具：……</li>
+            <li>目前在做：……</li>
+          </ul>
+        </section>
+
+        <section id="projects" class="card" style="margin-top:18px;">
+          <h2>项目</h2>
+          <div class="list">
+            <div class="item">
+              <div class="title">项目 1：标题</div>
+              <div class="desc">（占位）一句话说明这个项目做了什么、用到什么、成果是什么。</div>
+            </div>
+            <div class="item">
+              <div class="title">项目 2：标题</div>
+              <div class="desc">（占位）可以放 GitHub 链接 / Demo 链接。</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="notes" class="card" style="margin-top:18px;">
+          <h2>笔记 / 文章</h2>
+          <p class="muted">（占位）之后可以放学习记录、博客链接、论文笔记等。</p>
+        </section>
+      </div>
+
+      <!-- 右侧：信息栏 -->
+      <aside>
+        <section class="card">
+          <h2>快速信息</h2>
+          <p class="muted">（占位）城市 / 学校 / 职业 / 关键词</p>
+          <hr style="border:none;border-top:1px solid var(--line); margin:12px 0;">
+          <p class="muted"><b>状态：</b>正在建设中</p>
+        </section>
+
+        <section id="contact" class="card" style="margin-top:18px;">
+          <h2>联系</h2>
+          <p class="muted">（占位）放你的联系方式：</p>
+          <ul class="muted">
+            <li>Email：yourname@example.com</li>
+            <li>GitHub：<a href="https://github.com/yangjh0421" target="_blank" rel="noopener">github.com/yangjh0421</a></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> yangjh0421 · Built with GitHub Pages
+    </div>
+  </footer>
+
+  <script>
+    // 自动更新年份
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

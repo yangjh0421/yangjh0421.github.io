@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "PaperLens",
+  "description": "在论文页面提取研究问题、方法、数据设置、结果、局限与证据片段，并在侧边栏展示。",
+  "version": "0.1.0",
+  "permissions": ["activeTab", "storage", "tabs", "sidePanel"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "PaperLens",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["parser.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html",
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  }
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yangjh0421</title>
+
+<style>
+
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --primary:#2563eb;
+  --shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+body{
+  margin:0;
+  font-family:Arial,"PingFang SC","Microsoft YaHei";
+  background:var(--bg);
+  color:var(--text);
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+/* 顶部导航 */
+
+header{
+  border-bottom:1px solid var(--line);
+  background:white;
+}
+
+.nav{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  padding:16px;
+}
+
+.nav a{
+  color:var(--muted);
+  font-weight:500;
+}
+
+.nav a:hover{
+  color:var(--primary);
+}
+
+/* 标题 */
+
+.hero{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:34px;
+}
+
+/* 卡片 */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  border:1px solid var(--line);
+  padding:24px;
+  box-shadow:var(--shadow);
+  transition:all .2s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.icon{
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.title{
+  font-size:20px;
+  font-weight:600;
+}
+
+.desc{
+  font-size:14px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+footer{
+  margin-top:60px;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="link.html">期刊</a>
+    <a href="literature.html">文献</a>
+    <a href="monitor.html">监控</a>
+    <a href="otherlinks.html">Other</a>
+  </nav>
+</header>
+
+
+<div class="container">
+
+<div class="hero">
+  <h1>yangjh0421</h1>
+</div>
+
+
+<div class="grid">
+
+<a class="card" href="link.html">
+<div class="icon">📚</div>
+<div class="title">期刊</div>
+<div class="desc">常用期刊入口</div>
+</a>
+
+<a class="card" href="literature.html">
+<div class="icon">📄</div>
+<div class="title">文献库</div>
+<div class="desc">保存与管理文献</div>
+</a>
+
+<a class="card" href="monitor.html">
+<div class="icon">📡</div>
+<div class="title">文献监控</div>
+<div class="desc">关键词抓取最新文献</div>
+</a>
+
+<a class="card" href="otherlinks.html">
+<div class="icon">🔗</div>
+<div class="title">Other Links</div>
+<div class="desc">其他常用网站</div>
+</a>
+
+</div>
+
+
+<footer>
+© <span id="year"></span> yangjh0421
+</footer>
+
+</div>
+
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+
+</body>
+</html>

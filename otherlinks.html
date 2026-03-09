@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Other Links</title>
+
+<style>
+
+body{
+  font-family:Arial, "PingFang SC", "Microsoft YaHei";
+  background:#f6f7fb;
+  margin:0;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.add-box{
+  display:flex;
+  gap:10px;
+  margin-bottom:30px;
+}
+
+input{
+  flex:1;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+button{
+  padding:10px 16px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 5px 12px rgba(0,0,0,.06);
+  position:relative;
+}
+
+.card a{
+  font-weight:600;
+  text-decoration:none;
+  color:#2563eb;
+}
+
+.delete{
+  position:absolute;
+  top:8px;
+  right:10px;
+  color:#999;
+  cursor:pointer;
+}
+
+.delete:hover{
+  color:red;
+}
+
+.back{
+  margin-top:40px;
+  text-align:center;
+}
+
+.back a{
+  color:#2563eb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Other Links</h1>
+
+<div class="add-box">
+<input id="name" placeholder="网站名称">
+<input id="url" placeholder="https://">
+<button onclick="addLink()">添加</button>
+</div>
+
+<div class="grid" id="links"></div>
+
+<div class="back">
+<a href="index.html">← 返回主页</a>
+</div>
+
+</div>
+
+<script>
+
+let links = JSON.parse(localStorage.getItem("other_links") || "[]")
+
+function save(){
+  localStorage.setItem("other_links", JSON.stringify(links))
+}
+
+function render(){
+
+  const container = document.getElementById("links")
+  container.innerHTML=""
+
+  links.forEach((link,i)=>{
+
+    const card=document.createElement("div")
+    card.className="card"
+
+    card.innerHTML=`
+      <div class="delete" onclick="removeLink(${i})">✕</div>
+      <a href="${link.url}" target="_blank">${link.name}</a>
+    `
+
+    container.appendChild(card)
+
+  })
+}
+
+function addLink(){
+
+  const name=document.getElementById("name").value
+  const url=document.getElementById("url").value
+
+  if(!name || !url){
+    alert("请输入名称和网址")
+    return
+  }
+
+  links.push({name,url})
+  save()
+  render()
+
+  document.getElementById("name").value=""
+  document.getElementById("url").value=""
+
+}
+
+function removeLink(i){
+
+  links.splice(i,1)
+  save()
+  render()
+
+}
+
+render()
+
+</script>
+
+</body>
+</html>

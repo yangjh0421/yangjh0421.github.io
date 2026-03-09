@@ -6,238 +6,435 @@
   <title>Literature Library</title>
   <style>
     :root{
-      --bg:#141c2e; --panel:#0f1a30; --panel2:#0c162b;
-      --text:#e8eefc; --muted:#9fb0d0; --line:#233454;
-      --brand:#6aa6ff; --danger:#ff6a6a; --ok:#58d48f; --warn:#ffcc66;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 14px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --bg:#f6f7fb;
+      --panel:#ffffff;
+      --panel2:#fafbfc;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+
+      --brand:#2563eb;
+      --brand-soft:#eff6ff;
+
+      --danger:#dc2626;
+      --danger-soft:#fef2f2;
+
+      --ok:#059669;
+      --ok-soft:#ecfdf5;
+
+      --warn:#d97706;
+      --warn-soft:#fffbeb;
+
+      --shadow:0 8px 24px rgba(15,23,42,.06);
+      --radius:14px;
+
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
+
     body{
-  margin:0; 
-  font-family:var(--sans);
-  background:
-    radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.12), transparent 60%),
-    radial-gradient(900px 500px at 90% 10%, rgba(88,212,143,.10), transparent 55%),
-    var(--bg);
-  color:var(--text);
-}
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(900px 420px at 20% -10%, rgba(37,99,235,.05), transparent 60%),
+        radial-gradient(700px 360px at 100% 0%, rgba(14,165,233,.04), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+
     a{color:var(--brand); text-decoration:none}
     a:hover{text-decoration:underline}
+
     header{
       padding:28px 18px 18px;
-      max-width:1200px; margin:0 auto;
-      display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;
+      max-width:1240px;
+      margin:0 auto;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
     }
-    .title h1{margin:0; font-size:22px; letter-spacing:.2px}
-    .title p{margin:6px 0 0; color:var(--muted); font-size:13px}
-    .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .title h1{
+      margin:0;
+      font-size:28px;
+      letter-spacing:.2px;
+      color:#111827;
+    }
+
+    .title p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
     .btn{
       border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      color:var(--text); padding:10px 12px;
-      border-radius:12px; cursor:pointer;
-      box-shadow: var(--shadow);
+      background:#fff;
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow:var(--shadow);
       font-size:13px;
       user-select:none;
+      transition:.18s ease;
     }
-    .btn:hover{border-color:#2f4a7d}
-    .btn.primary{border-color:rgba(106,166,255,.55)}
-    .btn.danger{border-color:rgba(255,106,106,.55)}
-    .btn.ok{border-color:rgba(88,212,143,.55)}
-    .btn.warn{border-color:rgba(255,204,102,.55)}
-    .btn:disabled{opacity:.5; cursor:not-allowed}
-    main{max-width:1200px; margin:0 auto; padding:0 18px 40px}
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:#cbd5e1;
+      background:#f9fafb;
+    }
+
+    .btn.primary{
+      background:var(--brand);
+      color:#fff;
+      border-color:var(--brand);
+    }
+    .btn.primary:hover{background:#1d4ed8}
+
+    .btn.danger{
+      color:var(--danger);
+      border-color:#fecaca;
+      background:#fff;
+    }
+
+    .btn.ok{
+      color:var(--ok);
+      border-color:#bbf7d0;
+      background:#fff;
+    }
+
+    .btn.warn{
+      color:var(--warn);
+      border-color:#fde68a;
+      background:#fff;
+    }
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    main{
+      max-width:1240px;
+      margin:0 auto;
+      padding:0 18px 40px;
+    }
+
     .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      background:var(--panel);
       border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
 
     .quickadd{
-      padding:14px;
+      padding:16px;
       display:grid;
-      grid-template-columns: 1.6fr .9fr 1fr;
+      grid-template-columns:1.6fr .9fr 1fr;
       gap:10px;
       border-bottom:1px solid var(--line);
-      background:rgba(15,26,48,.75);
+      background:var(--panel2);
     }
+
     @media (max-width: 900px){
-      .quickadd{grid-template-columns:1fr; }
+      .quickadd{grid-template-columns:1fr;}
     }
+
     .quickadd .hint{
-      grid-column: 1/-1;
+      grid-column:1/-1;
       margin:2px 0 0;
       font-size:12px;
       color:var(--muted);
-      line-height:1.45;
+      line-height:1.5;
     }
+
     .quickadd .right{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-      align-items:center;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:end;
     }
 
     .filters{
-      padding:14px;
+      padding:14px 16px;
       display:grid;
-      grid-template-columns: 1.4fr .8fr .8fr .7fr;
+      grid-template-columns:1.4fr .85fr .8fr .85fr .75fr;
       gap:10px;
       border-bottom:1px solid var(--line);
-      background:rgba(15,26,48,.65);
+      background:#fff;
     }
-    @media (max-width: 900px){
-      .filters{grid-template-columns:1fr 1fr; }
+
+    @media (max-width: 980px){
+      .filters{grid-template-columns:1fr 1fr;}
     }
-    @media (max-width: 520px){
-      .filters{grid-template-columns:1fr; }
+
+    @media (max-width: 560px){
+      .filters{grid-template-columns:1fr;}
     }
+
     input, select, textarea{
       width:100%;
-      background:rgba(11,18,32,.65);
+      background:#fff;
       border:1px solid var(--line);
       color:var(--text);
       padding:10px 12px;
       border-radius:12px;
       font-size:13px;
       outline:none;
+      transition:.15s ease;
     }
-    input::placeholder, textarea::placeholder{color:rgba(159,176,208,.65)}
-    textarea{min-height:90px; resize:vertical}
+
+    input:focus, select:focus, textarea:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 3px rgba(37,99,235,.08);
+    }
+
+    input::placeholder, textarea::placeholder{
+      color:#9ca3af;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
 
     .table-wrap{overflow:auto}
-    table{width:100%; border-collapse:collapse; min-width:1080px}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1160px;
+    }
+
     th, td{
-      padding:12px 12px;
-      border-bottom:1px solid rgba(35,52,84,.7);
+      padding:12px;
+      border-bottom:1px solid #eef2f7;
       vertical-align:top;
       font-size:13px;
     }
+
     th{
-      position:sticky; top:0;
-      background:rgba(12,22,43,.95);
-      color:rgba(232,238,252,.9);
+      position:sticky;
+      top:0;
+      background:#f8fafc;
+      color:#374151;
       text-align:left;
       z-index:2;
       white-space:nowrap;
     }
-    tr:hover td{background:rgba(106,166,255,.05)}
+
+    tr:hover td{
+      background:#f9fbff;
+    }
+
     .muted{color:var(--muted)}
     .mono{font-family:var(--mono); font-size:12px}
+
     .tag{
-      display:inline-flex; align-items:center;
+      display:inline-flex;
+      align-items:center;
       gap:6px;
       padding:3px 8px;
       border-radius:999px;
-      border:1px solid rgba(106,166,255,.35);
-      background:rgba(106,166,255,.08);
-      color:rgba(232,238,252,.92);
+      border:1px solid #dbeafe;
+      background:#eff6ff;
+      color:#1d4ed8;
       margin:2px 6px 2px 0;
       font-size:12px;
       white-space:nowrap;
     }
-    .actions{display:flex; gap:8px; flex-wrap:wrap}
-    .iconbtn{
-      padding:8px 10px; border-radius:10px; border:1px solid var(--line);
-      background:rgba(255,255,255,.03); color:var(--text);
-      cursor:pointer; font-size:12px;
-      user-select:none;
+
+    .actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
     }
-    .iconbtn:hover{border-color:#2f4a7d}
-    .iconbtn.danger{border-color:rgba(255,106,106,.45)}
-    .iconbtn.ok{border-color:rgba(88,212,143,.45)}
-    .iconbtn.warn{border-color:rgba(255,204,102,.45)}
+
+    .iconbtn{
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      cursor:pointer;
+      font-size:12px;
+      user-select:none;
+      transition:.15s ease;
+    }
+
+    .iconbtn:hover{
+      border-color:#cbd5e1;
+      background:#f9fafb;
+    }
+
+    .iconbtn.danger{
+      border-color:#fecaca;
+      color:var(--danger);
+    }
+
+    .iconbtn.ok{
+      border-color:#bbf7d0;
+      color:var(--ok);
+    }
+
+    .iconbtn.warn{
+      border-color:#fde68a;
+      color:var(--warn);
+    }
+
+    .favbtn{
+      min-width:40px;
+      font-size:18px;
+      line-height:1;
+      padding:7px 10px;
+    }
 
     .foot{
-      padding:12px 14px;
-      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      color:var(--muted); font-size:12px;
-      background:rgba(15,26,48,.55);
+      padding:12px 16px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+      background:var(--panel2);
     }
 
-    /* modal */
     .modal{
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.55);
-      display:none; align-items:center; justify-content:center;
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.22);
+      display:none;
+      align-items:center;
+      justify-content:center;
       padding:18px;
+      z-index:50;
     }
+
     .modal.open{display:flex}
+
     .card{
       width:min(980px, 100%);
-      background:linear-gradient(180deg, rgba(15,26,48,.95), rgba(12,22,43,.95));
+      background:#fff;
       border:1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.55);
+      border-radius:18px;
+      box-shadow:0 24px 80px rgba(15,23,42,.12);
       overflow:hidden;
     }
+
     .card header{
       padding:16px 16px 10px;
-      max-width:none; margin:0;
+      max-width:none;
+      margin:0;
       align-items:center;
-      display:flex; gap:12px; justify-content:space-between; flex-wrap:wrap;
+      display:flex;
+      gap:12px;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      border-bottom:1px solid #f1f5f9;
     }
-    .card header h2{margin:0; font-size:16px}
-    .card header .sub{margin:4px 0 0; font-size:12px; color:var(--muted)}
+
+    .card header h2{
+      margin:0;
+      font-size:16px;
+      color:#111827;
+    }
+
+    .card header .sub{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
     .card .body{
       padding:14px 16px 16px;
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:1fr 1fr;
       gap:10px;
     }
+
     @media (max-width: 760px){
       .card .body{grid-template-columns:1fr}
     }
+
     .span2{grid-column:1/-1}
     .row{display:flex; flex-direction:column; gap:6px;}
-    label{font-size:12px; color:rgba(159,176,208,.95)}
+
+    label{
+      font-size:12px;
+      color:#4b5563;
+    }
+
     .card .footer{
       padding:12px 16px 16px;
-      display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
-      border-top:1px solid rgba(35,52,84,.8);
-      background:rgba(15,26,48,.65);
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+      border-top:1px solid var(--line);
+      background:#fafbfc;
     }
 
     .kbd{
       font-family:var(--mono);
-      border:1px solid rgba(159,176,208,.3);
-      padding:2px 6px; border-radius:8px;
-      background:rgba(255,255,255,.04);
-      color:rgba(232,238,252,.85);
+      border:1px solid #d1d5db;
+      padding:2px 6px;
+      border-radius:8px;
+      background:#fff;
+      color:#374151;
     }
+
     .warnbox{
-      margin-top:10px;
-      padding:10px 12px;
+      margin-top:14px;
+      padding:14px 16px;
       border-radius:12px;
-      border:1px dashed rgba(255,204,102,.5);
-      background:rgba(255,204,102,.06);
-      color:rgba(232,238,252,.88);
+      border:1px solid #e5e7eb;
+      background:#fff;
+      color:var(--text);
       font-size:12px;
-      line-height:1.5;
-      max-width:1200px;
+      line-height:1.7;
+      max-width:1240px;
       margin-left:auto;
       margin-right:auto;
+      box-shadow:var(--shadow);
     }
+
     .toast{
       position:fixed;
       left:50%;
       bottom:22px;
       transform:translateX(-50%);
-      background:rgba(12,22,43,.92);
-      border:1px solid rgba(35,52,84,.9);
+      background:#111827;
+      border:1px solid #1f2937;
       padding:10px 12px;
       border-radius:14px;
-      color:rgba(232,238,252,.92);
+      color:#fff;
       font-size:13px;
-      box-shadow:0 16px 50px rgba(0,0,0,.45);
+      box-shadow:0 16px 50px rgba(0,0,0,.18);
       display:none;
       max-width:min(900px, calc(100vw - 24px));
       line-height:1.4;
       z-index:99;
     }
+
     .toast.show{display:block}
   </style>
 </head>
@@ -246,10 +443,10 @@
 <header>
   <div class="title">
     <h1>Literature Library</h1>
-    <p>本页数据保存在本浏览器的 <span class="mono">localStorage</span>。可导出 JSON 备份；可用 Crossref 通过 DOI/题目补全元数据。</p>
+    <p>本地保存，可导出 JSON 备份，并支持通过 DOI / 题目自动补全文献信息。</p>
   </div>
   <div class="toolbar">
-    <button class="btn primary" id="btnAdd">＋ 手动新增</button>
+    <button class="btn primary" id="btnAdd">＋ 新增文献</button>
     <button class="btn" id="btnExport">导出 JSON</button>
     <button class="btn" id="btnImport">导入 JSON</button>
     <button class="btn danger" id="btnClear">清空全部</button>
@@ -259,10 +456,9 @@
 <main>
   <div class="panel">
 
-    <!-- Quick add -->
     <div class="quickadd">
       <div class="row">
-        <label>快速添加：输入 DOI 或题目（Crossref）</label>
+        <label>快速添加：输入 DOI 或题目</label>
         <input id="quickQuery" placeholder="例如：10.1038/s41557-021-00720-5 或 Transient micellar environments ..." />
       </div>
 
@@ -272,28 +468,36 @@
       </div>
 
       <div class="right">
-        <button class="btn ok" id="btnQuickAdd">从 DOI/题目抓取并新增</button>
+        <button class="btn ok" id="btnQuickAdd">自动抓取</button>
       </div>
 
       <div class="hint">
-        说明：题目搜索默认取最相关的 1 条结果；如果你希望弹窗选择前 5 条候选，我可以再升级。快捷键：<span class="kbd">/</span> 聚焦搜索；<span class="kbd">N</span> 手动新增。
+        说明：题目搜索默认取最相关的 1 条结果。快捷键：<span class="kbd">/</span> 聚焦搜索；<span class="kbd">N</span> 新增文献。
       </div>
     </div>
 
-    <!-- Filters -->
     <div class="filters">
       <input id="q" placeholder="搜索：标题 / 作者 / DOI / 期刊 / 标签 / 备注 …（本地模糊匹配）" />
+
       <select id="tagFilter">
         <option value="">标签筛选：全部</option>
       </select>
+
+      <select id="favoriteFilter">
+        <option value="">收藏：全部</option>
+        <option value="1">仅收藏</option>
+      </select>
+
       <select id="sortBy">
         <option value="added_desc">排序：最近添加</option>
         <option value="added_asc">排序：最早添加</option>
+        <option value="fav_desc">排序：收藏优先</option>
         <option value="year_desc">排序：年份（新→旧）</option>
         <option value="year_asc">排序：年份（旧→新）</option>
         <option value="title_asc">排序：标题（A→Z）</option>
         <option value="title_desc">排序：标题（Z→A）</option>
       </select>
+
       <select id="typeFilter">
         <option value="">类型：全部</option>
         <option value="paper">论文</option>
@@ -305,12 +509,12 @@
       </select>
     </div>
 
-    <!-- Table -->
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th style="width:34%">标题</th>
+            <th style="width:6%">收藏</th>
+            <th style="width:30%">标题</th>
             <th style="width:18%">作者</th>
             <th style="width:7%">年</th>
             <th style="width:13%">期刊/会议</th>
@@ -326,27 +530,26 @@
 
     <div class="foot">
       <div>共 <span id="count">0</span> 条</div>
-      <div class="muted">提示：每条文献支持 <b>刷新/补全</b>（Crossref）与 <b>EndNote(RIS)</b> 下载</div>
+      <div class="muted">提示：每条文献支持补全信息（Crossref）与 RIS 下载</div>
     </div>
   </div>
 
   <div class="warnbox">
-    <b>书签脚本（从外部网页带入标题+URL）：</b><br/>
-    把下面这段拖到书签栏，或新建书签后把“网址/URL”粘进去。你在任何网页点它，会打开本页并弹出新增窗口（自动带入标题/URL）：<br/>
+    <b>书签脚本（从外部网页带入标题 + URL）：</b><br />
+    把下面这段拖到书签栏，或新建书签后把“网址 / URL”粘进去。你在任何网页点它，会打开本页并弹出新增窗口（自动带入标题 / URL）：<br />
     <span class="mono" id="bookmarkletText"></span>
   </div>
 </main>
 
-<!-- Modal -->
 <div class="modal" id="modal">
   <div class="card" role="dialog" aria-modal="true">
     <header>
       <div>
         <h2 id="modalTitle">新增文献</h2>
-        <div class="sub">可先填 DOI 或标题，再点“刷新/补全”。标签用逗号分隔。</div>
+        <div class="sub">可先填 DOI 或标题，再点“补全信息”。标签用逗号分隔。</div>
       </div>
       <div style="display:flex; gap:10px; align-items:center;">
-        <button class="btn warn" id="btnFetch">刷新 / 补全（Crossref）</button>
+        <button class="btn warn" id="btnFetch">补全信息</button>
         <button class="btn" id="btnClose">关闭</button>
       </div>
     </header>
@@ -390,7 +593,7 @@
       </div>
 
       <div class="row span2">
-        <label>URL（原文/网页）</label>
+        <label>URL（原文 / 网页）</label>
         <input id="f_url" placeholder="https://..." />
       </div>
 
@@ -401,7 +604,7 @@
 
       <div class="row span2">
         <label>备注</label>
-        <textarea id="f_notes" placeholder="你为什么收藏它？关键图/关键结论？"></textarea>
+        <textarea id="f_notes" placeholder="你为什么收藏它？关键图 / 关键结论？"></textarea>
       </div>
     </div>
 
@@ -413,13 +616,12 @@
   </div>
 </div>
 
-<input type="file" id="fileInput" accept="application/json" style="display:none"/>
-
+<input type="file" id="fileInput" accept="application/json" style="display:none" />
 <div class="toast" id="toast"></div>
 
 <script>
 (() => {
-  const STORAGE_KEY = "literature_items_v2";
+  const STORAGE_KEY = "literature_items_v3";
 
   /** @type {Array<LitItem>} */
   let items = [];
@@ -438,15 +640,16 @@
    *  tags: string[],
    *  notes: string,
    *  type: string,
+   *  favorite: boolean,
    *  addedAt: number,
    *  updatedAt: number
    * }} LitItem */
 
-  // Elements
   const tbody = document.getElementById("tbody");
   const countEl = document.getElementById("count");
   const qEl = document.getElementById("q");
   const tagFilterEl = document.getElementById("tagFilter");
+  const favoriteFilterEl = document.getElementById("favoriteFilter");
   const sortByEl = document.getElementById("sortBy");
   const typeFilterEl = document.getElementById("typeFilter");
 
@@ -466,10 +669,8 @@
   const btnClear = document.getElementById("btnClear");
   const fileInput = document.getElementById("fileInput");
   const btnFetch = document.getElementById("btnFetch");
-
   const toastEl = document.getElementById("toast");
 
-  // Form fields
   const f_title = document.getElementById("f_title");
   const f_authors = document.getElementById("f_authors");
   const f_year = document.getElementById("f_year");
@@ -534,6 +735,21 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       items = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(items)) items = [];
+      items = items.map(x => ({
+        id: x.id || uuid(),
+        title: x.title || "",
+        authors: x.authors || "",
+        year: x.year || "",
+        venue: x.venue || "",
+        doi: normalizeDoi(x.doi || ""),
+        url: normalizeUrl(x.url || ""),
+        tags: Array.isArray(x.tags) ? x.tags : parseTags(x.tags || ""),
+        notes: x.notes || "",
+        type: x.type || "paper",
+        favorite: !!x.favorite,
+        addedAt: typeof x.addedAt === "number" ? x.addedAt : Date.now(),
+        updatedAt: typeof x.updatedAt === "number" ? x.updatedAt : Date.now()
+      }));
     } catch {
       items = [];
     }
@@ -557,7 +773,7 @@
   function matchText(it, q) {
     const blob = [
       it.title, it.authors, it.year, it.venue, it.doi, it.url,
-      (it.tags||[]).join(" "), it.notes, it.type
+      (it.tags || []).join(" "), it.notes, it.type
     ].join(" ").toLowerCase();
     return blob.includes(q);
   }
@@ -565,11 +781,12 @@
   function sortItems(list) {
     const mode = sortByEl.value;
     const copy = [...list];
-    const byTitle = (a,b) => (a.title||"").localeCompare((b.title||""), "en");
-    const byYear = (a,b) => (parseInt(a.year||"0",10) || 0) - (parseInt(b.year||"0",10) || 0);
+    const byTitle = (a,b) => (a.title || "").localeCompare((b.title || ""), "en");
+    const byYear = (a,b) => (parseInt(a.year || "0", 10) || 0) - (parseInt(b.year || "0", 10) || 0);
 
     if (mode === "added_desc") copy.sort((a,b) => b.addedAt - a.addedAt);
     else if (mode === "added_asc") copy.sort((a,b) => a.addedAt - b.addedAt);
+    else if (mode === "fav_desc") copy.sort((a,b) => (Number(!!b.favorite) - Number(!!a.favorite)) || (b.addedAt - a.addedAt));
     else if (mode === "year_desc") copy.sort((a,b) => byYear(b,a));
     else if (mode === "year_asc") copy.sort((a,b) => byYear(a,b));
     else if (mode === "title_asc") copy.sort((a,b) => byTitle(a,b));
@@ -580,23 +797,23 @@
   function filteredItems() {
     const q = (qEl.value || "").trim().toLowerCase();
     const tag = tagFilterEl.value;
+    const fav = favoriteFilterEl.value;
     const type = typeFilterEl.value;
 
     let list = items;
     if (q) list = list.filter(it => matchText(it, q));
     if (tag) list = list.filter(it => (it.tags || []).includes(tag));
+    if (fav === "1") list = list.filter(it => !!it.favorite);
     if (type) list = list.filter(it => (it.type || "") === type);
     return sortItems(list);
   }
 
   function typeFromCrossref(msg) {
-    // Crossref "type" examples: journal-article, proceedings-article, book-chapter, posted-content, dissertation, report, etc.
     const t = (msg && msg.type) ? String(msg.type) : "";
     if (t.includes("journal-article") || t.includes("proceedings-article")) return "paper";
     if (t.includes("book") || t.includes("book-chapter") || t.includes("monograph")) return "book";
     if (t.includes("dissertation") || t.includes("thesis")) return "thesis";
     if (t.includes("posted-content")) return "preprint";
-    // heuristic: if container-title exists and type unknown -> paper
     if (msg && (msg["container-title"] && msg["container-title"][0])) return "paper";
     return "other";
   }
@@ -658,7 +875,6 @@
     if (doi) f_doi.value = doi;
     if (url) f_url.value = url;
 
-    // type heuristic
     const t = typeFromCrossref(msg);
     if (t) f_type.value = t;
   }
@@ -699,12 +915,12 @@
       } else if (titleInput) {
         msg = await crossrefSearchByTitle(titleInput);
       } else {
-        toast("请先填写 DOI 或 标题");
+        toast("请先填写 DOI 或标题");
         return;
       }
 
       if (!msg) {
-        toast("未找到文献（Crossref）");
+        toast("未找到文献");
         return;
       }
 
@@ -714,7 +930,7 @@
       toast("补全失败：" + (e?.message || e));
     } finally {
       btnFetch.disabled = false;
-      btnFetch.textContent = "刷新 / 补全（Crossref）";
+      btnFetch.textContent = "补全信息";
     }
   }
 
@@ -726,6 +942,7 @@
       editingId = null;
       modalTitle.textContent = "新增文献";
       btnDelete.style.display = "none";
+
       f_title.value = item?.title || "";
       f_authors.value = item?.authors || "";
       f_year.value = item?.year || "";
@@ -739,6 +956,7 @@
       editingId = item.id;
       modalTitle.textContent = "编辑文献";
       btnDelete.style.display = "inline-block";
+
       f_title.value = item.title || "";
       f_authors.value = item.authors || "";
       f_year.value = item.year || "";
@@ -784,10 +1002,10 @@
     }
 
     if (!editingId) {
-      /** @type {LitItem} */
       const it = {
         id: uuid(),
         ...data,
+        favorite: false,
         addedAt: now,
         updatedAt: now
       };
@@ -817,6 +1035,16 @@
     saveStorage();
     render();
     toast("已删除");
+  }
+
+  function toggleFavorite(id) {
+    const idx = items.findIndex(x => x.id === id);
+    if (idx < 0) return;
+    items[idx].favorite = !items[idx].favorite;
+    items[idx].updatedAt = Date.now();
+    saveStorage();
+    render();
+    toast(items[idx].favorite ? "已加入收藏" : "已取消收藏");
   }
 
   function exportJson() {
@@ -850,6 +1078,7 @@
             tags: Array.isArray(x.tags) ? x.tags : parseTags(x.tags || ""),
             notes: x.notes || "",
             type: x.type || "paper",
+            favorite: !!x.favorite,
             addedAt: typeof x.addedAt === "number" ? x.addedAt : Date.now(),
             updatedAt: typeof x.updatedAt === "number" ? x.updatedAt : (typeof x.addedAt === "number" ? x.addedAt : Date.now())
           }));
@@ -862,7 +1091,7 @@
         render();
         toast(`导入完成：共 ${items.length} 条`);
       } catch (e) {
-        alert("导入失败： " + (e?.message || e));
+        alert("导入失败：" + (e?.message || e));
       }
     };
     reader.readAsText(file);
@@ -877,11 +1106,10 @@
   }
 
   function risTypeForItem(it) {
-    // Minimal RIS mapping
     const t = (it.type || "").toLowerCase();
     if (t === "book") return "BOOK";
     if (t === "thesis") return "THES";
-    if (t === "review") return "JOUR"; // still journal type; could add M3 if you want
+    if (t === "review") return "JOUR";
     if (t === "preprint") return "GEN";
     return "JOUR";
   }
@@ -892,7 +1120,6 @@
 
     if (it.title) lines.push(`TI  - ${it.title}`);
 
-    // AU lines: split by ';'
     const authors = (it.authors || "")
       .split(";")
       .map(a => a.trim())
@@ -943,12 +1170,12 @@
       if (doi) msg = await crossrefFetchByDOI(doi);
       else if (title) msg = await crossrefSearchByTitle(title);
       else {
-        toast("此条目没有 DOI/标题，无法补全");
+        toast("此条目没有 DOI / 标题，无法补全");
         return;
       }
 
       if (!msg) {
-        toast("未找到文献（Crossref）");
+        toast("未找到文献");
         return;
       }
 
@@ -978,23 +1205,19 @@
     btnQuickAdd.textContent = "正在抓取…";
 
     try {
-      // decide DOI vs title (simple heuristic)
       const asDoi = /^10\.\d{4,9}\//.test(normalizeDoi(query)) || /doi\.org\/10\.\d{4,9}\//i.test(query);
       let msg = null;
 
-      if (asDoi) {
-        msg = await crossrefFetchByDOI(query);
-      } else {
-        msg = await crossrefSearchByTitle(query);
-      }
+      if (asDoi) msg = await crossrefFetchByDOI(query);
+      else msg = await crossrefSearchByTitle(query);
 
       if (!msg) {
-        toast("未找到文献（Crossref）");
+        toast("未找到文献");
         return;
       }
 
       const now = Date.now();
-      const newItem = /** @type {LitItem} */ ({
+      const newItem = {
         id: uuid(),
         title: (msg.title?.[0] || query).trim(),
         authors: formatAuthorsFromCrossref(msg.author),
@@ -1005,16 +1228,16 @@
         tags: presetTags,
         notes: "",
         type: typeFromCrossref(msg),
+        favorite: false,
         addedAt: now,
         updatedAt: now
-      });
+      };
 
-      // If already exists by DOI, do not duplicate (optional but useful)
       const doiKey = normalizeDoi(newItem.doi);
       if (doiKey) {
         const exists = items.some(x => normalizeDoi(x.doi) === doiKey);
         if (exists) {
-          toast("已存在相同 DOI 的条目（未重复添加）");
+          toast("已存在相同 DOI 的条目");
           return;
         }
       }
@@ -1022,13 +1245,13 @@
       items.unshift(newItem);
       saveStorage();
       render();
-      toast("已新增（已抓取元数据）");
+      toast("已新增");
       quickQueryEl.value = "";
     } catch (e) {
       toast("新增失败：" + (e?.message || e));
     } finally {
       btnQuickAdd.disabled = false;
-      btnQuickAdd.textContent = "从 DOI/题目抓取并新增";
+      btnQuickAdd.textContent = "自动抓取";
     }
   }
 
@@ -1041,15 +1264,19 @@
       const doi = normalizeDoi(it.doi);
       const doiLink = doi ? `https://doi.org/${encodeURIComponent(doi)}` : "";
       const url = normalizeUrl(it.url || (doi ? doiLink : ""));
-
       const tagsHtml = (it.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
 
       return `
         <tr>
           <td>
-            <div style="font-weight:600; line-height:1.35;">${escapeHtml(it.title || "(无标题)")}</div>
-            <div class="muted" style="margin-top:6px; line-height:1.35;">
-              ${it.notes ? escapeHtml(it.notes).slice(0, 140) + (it.notes.length>140 ? "…" : "") : ""}
+            <button class="iconbtn favbtn" data-act="fav" data-id="${it.id}" title="收藏 / 取消收藏">
+              ${it.favorite ? "★" : "☆"}
+            </button>
+          </td>
+          <td>
+            <div style="font-weight:600; line-height:1.45; color:#111827;">${escapeHtml(it.title || "(无标题)")}</div>
+            <div class="muted" style="margin-top:6px; line-height:1.45;">
+              ${it.notes ? escapeHtml(it.notes).slice(0, 140) + (it.notes.length > 140 ? "…" : "") : ""}
             </div>
             <div class="muted mono" style="margin-top:6px;">
               added: ${new Date(it.addedAt).toLocaleString()}
@@ -1058,19 +1285,22 @@
           </td>
           <td>${escapeHtml(it.authors || "")}</td>
           <td>${escapeHtml(it.year || "")}</td>
-          <td>${escapeHtml(it.venue || "")}<div class="muted" style="margin-top:6px;">${escapeHtml(it.type || "")}</div></td>
+          <td>
+            ${escapeHtml(it.venue || "")}
+            <div class="muted" style="margin-top:6px;">${escapeHtml(it.type || "")}</div>
+          </td>
           <td class="mono">
             ${doi ? `<a href="${doiLink}" target="_blank" rel="noopener">${escapeHtml(doi)}</a>` : ""}
           </td>
           <td>
-            ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">Open</a>` : ""}
+            ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">查看</a>` : ""}
           </td>
           <td>${tagsHtml}</td>
           <td>
             <div class="actions">
               <button class="iconbtn ok" data-act="edit" data-id="${it.id}">编辑</button>
-              <button class="iconbtn warn" data-act="refresh" data-id="${it.id}">刷新/补全</button>
-              <button class="iconbtn" data-act="ris" data-id="${it.id}">EndNote(RIS)</button>
+              <button class="iconbtn warn" data-act="refresh" data-id="${it.id}">补全</button>
+              <button class="iconbtn" data-act="ris" data-id="${it.id}">导出 RIS</button>
               <button class="iconbtn danger" data-act="del" data-id="${it.id}">删除</button>
             </div>
           </td>
@@ -1081,10 +1311,10 @@
     if (!tbody.innerHTML) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="8" style="padding:18px;">
-            <div style="font-weight:600;">暂无数据</div>
+          <td colspan="9" style="padding:18px;">
+            <div style="font-weight:600; color:#111827;">暂无数据</div>
             <div class="muted" style="margin-top:6px; line-height:1.6;">
-              你可以：① 上方用 DOI/题目快速抓取新增；② 点右上角手动新增；③ 用书签脚本从外部网页带入标题+URL。
+              你可以：① 上方用 DOI / 题目快速抓取新增；② 点右上角新增文献；③ 用书签脚本从外部网页带入标题 + URL。
             </div>
           </td>
         </tr>
@@ -1092,7 +1322,6 @@
     }
   }
 
-  // Bookmarklet: open this page with ?add=1&title=...&url=...
   function buildBookmarklet() {
     const target = new URL(location.href);
     target.search = "";
@@ -1120,7 +1349,6 @@
     history.replaceState({}, "", clean.toString());
   }
 
-  // Events
   btnAdd.addEventListener("click", () => openModal("new"));
   btnClose.addEventListener("click", closeModal);
   btnCancel.addEventListener("click", closeModal);
@@ -1143,13 +1371,14 @@
     const it = items.find(x => x.id === id);
     if (!it) return;
 
+    if (act === "fav") toggleFavorite(id);
     if (act === "edit") openModal("edit", it);
     if (act === "del") removeItem(id);
     if (act === "refresh") refreshItemFromCrossref(id);
     if (act === "ris") downloadRIS(it);
   });
 
-  [qEl, tagFilterEl, sortByEl, typeFilterEl].forEach(el => {
+  [qEl, tagFilterEl, favoriteFilterEl, sortByEl, typeFilterEl].forEach(el => {
     el.addEventListener("input", render);
     el.addEventListener("change", render);
   });
@@ -1170,7 +1399,6 @@
     if (e.key === "Enter") quickAddFromQuery();
   });
 
-  // shortcuts
   document.addEventListener("keydown", (e) => {
     if (e.key === "/" && !modal.classList.contains("open")) {
       e.preventDefault();
@@ -1182,14 +1410,9 @@
     if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
   });
 
-  // init
   loadStorage();
   render();
-
-  // bookmarklet
   document.getElementById("bookmarkletText").textContent = buildBookmarklet();
-
-  // auto-open add modal from bookmarklet
   maybeAutoAddFromQuery();
 })();
 </script>

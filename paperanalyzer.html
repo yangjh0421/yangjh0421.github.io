@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paper Analyzer</title>
+  <style>
+    :root {
+      --bg: #f3f4f7;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --soft: #f8fafc;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max-width: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      color: var(--subtext);
+      transition: 0.2s ease;
+    }
+
+    .back-btn:hover {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .title-wrap h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .title-wrap p {
+      margin: 8px 0 0;
+      color: var(--subtext);
+      font-size: 15px;
+    }
+
+    .hero-card,
+    .paper-card,
+    .analysis-card,
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 24px;
+      margin-bottom: 26px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+    }
+
+    .input-panel h2,
+    .upload-panel h2,
+    .paper-card h2,
+    .analysis-card h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--subtext);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field-group {
+      margin-top: 16px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--subtext);
+      font-weight: 600;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input,
+    .textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 14px 16px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .text-input:focus,
+    .textarea:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-light {
+      background: #eef2ff;
+      color: #1e3a8a;
+    }
+
+    .btn-light:hover {
+      background: #e0e7ff;
+    }
+
+    .upload-panel {
+      background: var(--soft);
+      border: 1px dashed #cbd5e1;
+      border-radius: var(--radius);
+      padding: 20px;
+      min-height: 100%;
+    }
+
+    .dropzone {
+      margin-top: 14px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      background: #fff;
+      padding: 30px 18px;
+      text-align: center;
+      transition: 0.2s ease;
+    }
+
+    .dropzone:hover {
+      border-color: #93c5fd;
+      background: #f8fbff;
+    }
+
+    .dropzone .icon {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      margin: 8px 0;
+      color: var(--subtext);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .paper-card {
+      padding: 24px;
+      margin-bottom: 26px;
+    }
+
+    .paper-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .meta-box {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .meta-box .meta-label {
+      font-size: 13px;
+      color: var(--subtext);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .meta-box .meta-value {
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .paper-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .content-box {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .content-box h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .content-box p {
+      margin: 0;
+      color: #374151;
+      line-height: 1.8;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+
+    .figure-box {
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      background: linear-gradient(135deg, #f8fafc, #eef2ff);
+      border: 1px dashed #cbd5e1;
+      border-radius: 16px;
+      font-size: 14px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .analysis-card {
+      padding: 24px;
+    }
+
+    .analysis-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .analysis-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #dbeafe;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section-card {
+      padding: 18px;
+      margin-top: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .section-desc {
+      color: var(--subtext);
+      font-size: 13px;
+    }
+
+    .bilingual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .lang-box {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fcfcfd;
+      overflow: hidden;
+    }
+
+    .lang-head {
+      padding: 12px 14px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .lang-body {
+      padding: 14px;
+      font-size: 14px;
+      line-height: 1.85;
+      color: #374151;
+      white-space: pre-line;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--subtext);
+      font-size: 14px;
+      padding-top: 30px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .paper-sections,
+      .bilingual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .paper-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 22px 14px 42px;
+      }
+
+      .title-wrap h1 {
+        font-size: 28px;
+      }
+
+      .hero-card,
+      .paper-card,
+      .analysis-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">
+        <a href="index.html" class="back-btn">← 返回主页</a>
+        <div class="title-wrap">
+          <h1>Paper Analyzer</h1>
+          <p>通过 DOI / Title 或上传 PDF，对论文进行双语结构化分析</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero-card">
+      <div class="hero-grid">
+        <div class="input-panel">
+          <h2>模式一：DOI / Title 解析</h2>
+          <p class="muted">
+            适合快速筛选文献。输入 DOI 或文章标题后，可自动获取基础信息并生成摘要级分析。
+          </p>
+
+          <div class="field-group">
+            <label class="label" for="doiInput">DOI 或文章标题</label>
+            <div class="input-row">
+              <input
+                id="doiInput"
+                class="text-input"
+                type="text"
+                placeholder="例如：10.1038/s41557-021-00673-8 或完整文章标题"
+              />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <button class="btn btn-primary" type="button">Analyze by DOI / Title</button>
+          </div>
+        </div>
+
+        <div class="upload-panel">
+          <h2>模式二：上传 PDF 深度解析</h2>
+          <p class="muted">
+            适合深入分析 Introduction、核心发现、结论和研究拓展。后续可接入 PDF 解析与 AI 分析流程。
+          </p>
+
+          <div class="dropzone">
+            <div class="icon">📄</div>
+            <p><strong>拖入 PDF 到这里</strong></p>
+            <p>或者点击下方按钮上传文件</p>
+            <button class="btn btn-light" type="button">Upload PDF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-card">
+      <h2>Paper Information</h2>
+
+      <div class="paper-meta">
+        <div class="meta-box">
+          <div class="meta-label">Title</div>
+          <div class="meta-value">Micellar Templates in Dynamic Combinatorial Libraries</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Journal</div>
+          <div class="meta-value">Example Journal of Supramolecular Chemistry</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Authors</div>
+          <div class="meta-value">Author A; Author B; Author C</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">DOI</div>
+          <div class="meta-value">10.0000/example-doi-12345</div>
+        </div>
+      </div>
+
+      <div class="paper-sections">
+        <div class="content-box">
+          <h3>Abstract</h3>
+          <p>
+This work investigates how transient micellar environments influence dynamic combinatorial libraries.
+The study shows that amphiphilic microenvironments can bias product distributions and promote selective amplification of specific macrocycles.
+These findings provide mechanistic insight into adaptive chemical systems and suggest broader relevance to systems chemistry and chemical evolution.
+          </p>
+        </div>
+
+        <div class="content-box">
+          <h3>Keywords</h3>
+          <p>
+Dynamic combinatorial chemistry
+Micelles
+Supramolecular chemistry
+Selective amplification
+Systems chemistry
+Chemical evolution
+          </p>
+        </div>
+
+        <div class="content-box" style="grid-column: 1 / -1;">
+          <h3>Graphical Abstract / Figure</h3>
+          <div class="figure-box">
+            这里预留插图展示区域<br />
+            后续可接入 publisher 图像抓取或 PDF figure 提取
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="analysis-card">
+      <div class="analysis-header">
+        <div>
+          <h2>AI Analysis</h2>
+          <div class="muted">双栏中英文对照，适合快速读文献和拆解写作逻辑</div>
+        </div>
+        <div class="analysis-tag">Bilingual Output · 中文 / English</div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>1. Research Topic</h3>
+          <div class="section-desc">研究主题与领域定位</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+本文聚焦于动态组合化学与超分子化学的交叉领域，研究两亲性微环境，尤其是胶束模板，如何影响动态库中组分的选择性放大与分布调控。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+This paper lies at the intersection of dynamic combinatorial chemistry and supramolecular chemistry, focusing on how amphiphilic microenvironments, especially micellar templates, influence selective amplification and product distribution within dynamic libraries.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>2. Research Problem</h3>
+          <div class="section-desc">核心科学问题</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+当前研究已经表明模板效应可以影响动态组合库的组成，但瞬态微环境对拓扑选择和产物偏向的系统性调控机制仍不清楚。本文试图回答：胶束型微环境能否作为外部环境因素，引导动态库朝特定产物方向演化。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+Previous work has established that templating effects can alter the composition of dynamic combinatorial libraries, yet the systematic role of transient microenvironments in topology selection and product bias remains unclear. This study asks whether micellar environments can function as external regulators that direct the library toward specific products.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>3. Introduction Logic</h3>
+          <div class="section-desc">Background → Gap → Question → Approach</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+Background：
+作者先介绍动态组合化学能够通过可逆反应形成具有适应性的分子网络。
+
+Gap：
+现有研究虽涉及模板效应，但对瞬态两亲性微环境如何调控拓扑选择理解不足。
+
+Question：
+作者进一步提出，环境因素是否能够像“选择压力”一样影响动态库的产物分布。
+
+Approach：
+因此本文采用胶束环境作为模型体系，研究其对动态组合库分布和目标组分放大的影响。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+Background:
+The introduction begins by presenting dynamic combinatorial chemistry as a platform for adaptive molecular networks formed through reversible reactions.
+
+Gap:
+Although templating effects have been studied, the role of transient amphiphilic microenvironments in controlling topology selection remains insufficiently understood.
+
+Question:
+The authors then ask whether environmental factors can act as a form of selective pressure on product distribution within the library.
+
+Approach:
+To address this question, the study uses micellar environments as model systems to examine their effects on library composition and selective amplification.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>4. Key Findings</h3>
+          <div class="section-desc">核心发现</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+1. 胶束微环境显著改变了动态组合库的组分分布。
+2. 特定宏环或目标组分在两亲性环境中得到选择性放大。
+3. 环境调控并非被动背景，而是能够直接影响体系选择结果的关键因素。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+1. Micellar microenvironments substantially alter the composition of the dynamic combinatorial library.
+2. Specific macrocycles or target species are selectively amplified under amphiphilic conditions.
+3. Environmental regulation is not merely a passive background effect but a direct determinant of selection outcomes in the system.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>5. Core Conclusion</h3>
+          <div class="section-desc">核心结论</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+本文表明，胶束等瞬态两亲性微环境能够作为有效的外部调控因素，驱动动态组合体系朝特定方向选择与放大，从而为理解自适应化学网络和化学进化中的环境选择机制提供了模型。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+The paper demonstrates that transient amphiphilic environments such as micelles can serve as effective external regulators that drive selection and amplification in dynamic combinatorial systems, providing a model for understanding environmental selection in adaptive chemical networks and chemical evolution.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>6. Why the Study Is High-Impact</h3>
+          <div class="section-desc">为什么可能具有高影响力</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+1. 提出了环境调控动态组合库的新视角。
+2. 将超分子微环境与体系选择机制建立了更直接的联系。
+3. 对 systems chemistry 与 chemical evolution 具有概念推进意义。
+4. 不仅有现象描述，也包含一定的机制解释潜力。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+1. The study introduces a new perspective on environmental regulation in dynamic combinatorial libraries.
+2. It establishes a more direct connection between supramolecular microenvironments and selection processes.
+3. It carries conceptual significance for systems chemistry and chemical evolution.
+4. The work offers not only phenomenological observations but also mechanistic explanatory potential.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>7. Future Research Directions</h3>
+          <div class="section-desc">未来研究方向</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+1. 比较不同类型两亲分子模板对动态库选择性的影响。
+2. 研究更复杂微环境中选择放大是否仍然成立。
+3. 将该策略拓展到自复制体系或更接近前生命化学的模型中。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+1. Compare the influence of different amphiphilic templates on library selectivity.
+2. Examine whether selective amplification persists in more complex microenvironments.
+3. Extend the strategy to self-replicating systems or models more relevant to prebiotic chemistry.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>8. Possible Experiments</h3>
+          <div class="section-desc">可进一步设计的实验</div>
+        </div>
+        <div class="bilingual-grid">
+          <div class="lang-box">
+            <div class="lang-head">中文</div>
+            <div class="lang-body">
+1. 改变两亲分子的链长和头基类型，比较产物分布差异。
+2. 系统调节模板浓度，研究选择放大是否呈现阈值行为。
+3. 使用不同盐浓度或 pH 条件，考察环境参数与拓扑偏向之间的关系。
+            </div>
+          </div>
+          <div class="lang-box">
+            <div class="lang-head">English</div>
+            <div class="lang-body">
+1. Vary amphiphile chain length and headgroup identity to compare product distributions.
+2. Systematically tune template concentration to test whether selective amplification shows threshold behavior.
+3. Use different salt concentrations or pH conditions to probe the relationship between environmental parameters and topology bias.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 yangjh0421 · Paper Analyzer Prototype
+    </div>
+  </div>
+</body>
+</html>

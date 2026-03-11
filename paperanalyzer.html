@@ -16,13 +16,12 @@
       --soft: #f8fafc;
       --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
       --radius: 18px;
-      --radius-sm: 12px;
       --max-width: 1280px;
+      --success: #16a34a;
+      --danger: #dc2626;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -31,28 +30,24 @@
       color: var(--text);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
     .page {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 32px 24px 56px;
+      padding: 24px 20px 50px;
     }
 
     .topbar {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 28px;
       gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
     }
 
     .brand {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 14px;
     }
 
@@ -60,120 +55,93 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 14px;
+      padding: 9px 14px;
       border-radius: 12px;
       background: var(--card);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      font-size: 14px;
+      font-size: 13px;
       color: var(--subtext);
-      transition: 0.2s ease;
-    }
-
-    .back-btn:hover {
-      color: var(--text);
-      transform: translateY(-1px);
+      text-decoration: none;
+      white-space: nowrap;
     }
 
     .title-wrap h1 {
       margin: 0;
-      font-size: 34px;
-      line-height: 1.15;
+      font-size: 42px;
+      line-height: 1.1;
       font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
     .title-wrap p {
-      margin: 8px 0 0;
+      margin: 6px 0 0;
       color: var(--subtext);
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .hero-card,
-    .paper-card,
-    .analysis-card,
-    .section-card {
+    .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-    }
-
-    .hero-card {
-      padding: 24px;
-      margin-bottom: 26px;
+      padding: 20px;
+      margin-bottom: 16px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 20px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
     }
 
-    .input-panel h2,
-    .upload-panel h2,
-    .paper-card h2,
-    .analysis-card h2 {
-      margin: 0 0 14px;
-      font-size: 20px;
-      font-weight: 700;
+    .sub-block-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 800;
     }
 
-    .muted {
+    .panel-subtitle {
+      margin: 0 0 18px;
       color: var(--subtext);
       font-size: 14px;
       line-height: 1.7;
     }
 
-    .field-group {
-      margin-top: 16px;
-    }
+    .field-group { margin-top: 14px; }
 
     .label {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 13px;
       color: var(--subtext);
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .input-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .text-input,
-    .textarea {
+    .text-input, select {
       width: 100%;
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       background: #fff;
-      padding: 14px 16px;
-      font-size: 15px;
+      padding: 12px 14px;
+      font-size: 14px;
       outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .text-input:focus,
-    .textarea:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-    }
-
-    .textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.6;
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
     }
 
     .btn {
       border: none;
-      border-radius: 14px;
-      padding: 13px 18px;
-      font-size: 14px;
-      font-weight: 700;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-size: 13px;
+      font-weight: 800;
       cursor: pointer;
-      transition: 0.2s ease;
     }
 
     .btn-primary {
@@ -181,9 +149,12 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
     }
 
     .btn-light {
@@ -191,130 +162,152 @@
       color: #1e3a8a;
     }
 
-    .btn-light:hover {
-      background: #e0e7ff;
-    }
-
     .upload-panel {
       background: var(--soft);
       border: 1px dashed #cbd5e1;
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 18px;
       min-height: 100%;
     }
 
     .dropzone {
       margin-top: 14px;
       border: 2px dashed #cbd5e1;
-      border-radius: 16px;
+      border-radius: 14px;
       background: #fff;
-      padding: 30px 18px;
+      padding: 28px 16px;
       text-align: center;
-      transition: 0.2s ease;
-    }
-
-    .dropzone:hover {
-      border-color: #93c5fd;
-      background: #f8fbff;
     }
 
     .dropzone .icon {
-      font-size: 34px;
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
     .dropzone p {
-      margin: 8px 0;
+      margin: 6px 0;
       color: var(--subtext);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.7;
     }
 
-    .paper-card {
-      padding: 24px;
-      margin-bottom: 26px;
+    .top-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .control-box {
+      min-width: 210px;
+      flex: 1;
+    }
+
+    .status-bar {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--subtext);
+    }
+
+    .message {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .message.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 22px;
+      font-weight: 800;
     }
 
     .paper-meta {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    .meta-box {
+    .meta-box, .content-box, .lang-box {
       background: #fafafa;
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 14px 16px;
+      padding: 14px;
     }
 
-    .meta-box .meta-label {
-      font-size: 13px;
+    .meta-label {
+      font-size: 12px;
       color: var(--subtext);
       margin-bottom: 6px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .meta-box .meta-value {
-      font-size: 15px;
+    .meta-value {
+      font-size: 14px;
       line-height: 1.6;
       font-weight: 600;
       word-break: break-word;
+      white-space: pre-line;
     }
 
     .paper-sections {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .content-box {
-      background: #fafafa;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
+      gap: 12px;
     }
 
     .content-box h3 {
       margin: 0 0 10px;
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 800;
     }
 
     .content-box p {
       margin: 0;
       color: #374151;
       line-height: 1.8;
-      font-size: 14px;
+      font-size: 13px;
       white-space: pre-line;
     }
 
     .figure-box {
-      min-height: 220px;
+      min-height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--subtext);
       background: linear-gradient(135deg, #f8fafc, #eef2ff);
       border: 1px dashed #cbd5e1;
-      border-radius: 16px;
-      font-size: 14px;
+      border-radius: 14px;
+      font-size: 13px;
       text-align: center;
       padding: 20px;
-    }
-
-    .analysis-card {
-      padding: 24px;
     }
 
     .analysis-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
 
     .analysis-tag {
@@ -325,98 +318,132 @@
       color: #1d4ed8;
       border: 1px solid #dbeafe;
       border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .analysis-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
 
     .section-card {
-      padding: 18px;
-      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      margin-top: 12px;
     }
 
-    .section-title {
+    .section-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
+      padding: 15px 18px;
+      cursor: pointer;
+      background: #fff;
     }
 
-    .section-title h3 {
+    .section-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .collapse-icon {
+      width: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--subtext);
+      user-select: none;
+    }
+
+    .section-heading h3 {
       margin: 0;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
     }
 
     .section-desc {
       color: var(--subtext);
-      font-size: 13px;
+      font-size: 12px;
+      margin-top: 4px;
     }
+
+    .section-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .section-body {
+      padding: 0 18px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-card.collapsed .section-body { display: none; }
+    .section-card.collapsed .collapse-icon { transform: rotate(-90deg); }
 
     .bilingual-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .lang-box {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: #fcfcfd;
-      overflow: hidden;
+      gap: 12px;
+      margin-top: 14px;
     }
 
     .lang-head {
-      padding: 12px 14px;
+      padding: 10px 12px;
       background: #f8fafc;
       border-bottom: 1px solid var(--border);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
+      margin: -14px -14px 12px -14px;
+      border-radius: 14px 14px 0 0;
     }
 
     .lang-body {
-      padding: 14px;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.85;
       color: #374151;
       white-space: pre-line;
+      min-height: 110px;
     }
+
+    .hidden { display: none !important; }
 
     .footer {
       text-align: center;
       color: var(--subtext);
-      font-size: 14px;
-      padding-top: 30px;
+      font-size: 13px;
+      padding-top: 20px;
     }
 
     @media (max-width: 980px) {
-      .hero-grid,
-      .paper-sections,
-      .bilingual-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .paper-meta {
-        grid-template-columns: 1fr;
-      }
+      .hero-grid, .paper-sections, .bilingual-grid { grid-template-columns: 1fr; }
+      .paper-meta { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      .page {
-        padding: 22px 14px 42px;
-      }
-
-      .title-wrap h1 {
-        font-size: 28px;
-      }
-
-      .hero-card,
-      .paper-card,
-      .analysis-card {
-        padding: 18px;
-      }
+      .page { padding: 16px 10px 34px; }
+      .title-wrap h1 { font-size: 30px; }
+      .card { padding: 14px; }
+      .section-top, .section-body { padding-left: 12px; padding-right: 12px; }
     }
   </style>
 </head>
@@ -432,320 +459,338 @@
       </div>
     </div>
 
-    <section class="hero-card">
+    <section class="card">
+      <div class="top-controls">
+        <div class="control-box">
+          <label class="label" for="analysisMode">Analysis Mode</label>
+          <select id="analysisMode">
+            <option value="quick">Quick · Abstract</option>
+            <option value="standard" selected>Standard · Abstract + Introduction</option>
+            <option value="deep">Deep · Full PDF</option>
+          </select>
+        </div>
+      </div>
+
       <div class="hero-grid">
-        <div class="input-panel">
-          <h2>模式一：DOI / Title 解析</h2>
-          <p class="muted">
-            适合快速筛选文献。输入 DOI 或文章标题后，可自动获取基础信息并生成摘要级分析。
-          </p>
+        <div>
+          <h2 class="sub-block-title">模式一：DOI / Title 解析</h2>
+          <p class="panel-subtitle">输入 DOI 后，后端会抓取文献信息并调用 AI 进行分析。</p>
 
           <div class="field-group">
             <label class="label" for="doiInput">DOI 或文章标题</label>
-            <div class="input-row">
-              <input
-                id="doiInput"
-                class="text-input"
-                type="text"
-                placeholder="例如：10.1038/s41557-021-00673-8 或完整文章标题"
-              />
-            </div>
+            <input
+              id="doiInput"
+              class="text-input"
+              type="text"
+              placeholder="例如：10.1038/s41557-021-00673-8"
+            />
           </div>
 
-          <div class="field-group">
-            <button class="btn btn-primary" type="button">Analyze by DOI / Title</button>
+          <div class="toolbar">
+            <button class="btn btn-primary" type="button" id="analyzeDoiBtn">Analyze by DOI / Title</button>
           </div>
+
+          <div class="status-bar">
+            当前模式：<span id="modeText">Standard · Abstract + Introduction</span>
+          </div>
+          <div id="globalMessage" class="message"></div>
         </div>
 
         <div class="upload-panel">
-          <h2>模式二：上传 PDF 深度解析</h2>
-          <p class="muted">
-            适合深入分析 Introduction、核心发现、结论和研究拓展。后续可接入 PDF 解析与 AI 分析流程。
-          </p>
+          <h2 class="sub-block-title">模式二：上传 PDF 深度解析</h2>
+          <p class="panel-subtitle">上传 PDF 后，后端会提取文本并生成双语分析。</p>
 
-          <div class="dropzone">
+          <div class="dropzone" id="dropzone">
             <div class="icon">📄</div>
             <p><strong>拖入 PDF 到这里</strong></p>
             <p>或者点击下方按钮上传文件</p>
-            <button class="btn btn-light" type="button">Upload PDF</button>
+            <input type="file" id="pdfInput" accept="application/pdf" class="hidden" />
+            <button class="btn btn-light" type="button" id="uploadBtn">Upload PDF</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="paper-card">
-      <h2>Paper Information</h2>
+    <section class="card">
+      <h2 class="section-title">Paper Information</h2>
 
       <div class="paper-meta">
         <div class="meta-box">
           <div class="meta-label">Title</div>
-          <div class="meta-value">Micellar Templates in Dynamic Combinatorial Libraries</div>
+          <div class="meta-value" id="paperTitle">—</div>
         </div>
         <div class="meta-box">
           <div class="meta-label">Journal</div>
-          <div class="meta-value">Example Journal of Supramolecular Chemistry</div>
+          <div class="meta-value" id="paperJournal">—</div>
         </div>
         <div class="meta-box">
           <div class="meta-label">Authors</div>
-          <div class="meta-value">Author A; Author B; Author C</div>
+          <div class="meta-value" id="paperAuthors">—</div>
         </div>
         <div class="meta-box">
           <div class="meta-label">DOI</div>
-          <div class="meta-value">10.0000/example-doi-12345</div>
+          <div class="meta-value" id="paperDoi">—</div>
         </div>
       </div>
 
       <div class="paper-sections">
         <div class="content-box">
           <h3>Abstract</h3>
-          <p>
-This work investigates how transient micellar environments influence dynamic combinatorial libraries.
-The study shows that amphiphilic microenvironments can bias product distributions and promote selective amplification of specific macrocycles.
-These findings provide mechanistic insight into adaptive chemical systems and suggest broader relevance to systems chemistry and chemical evolution.
-          </p>
+          <p id="paperAbstract">—</p>
         </div>
 
         <div class="content-box">
           <h3>Keywords</h3>
-          <p>
-Dynamic combinatorial chemistry
-Micelles
-Supramolecular chemistry
-Selective amplification
-Systems chemistry
-Chemical evolution
-          </p>
+          <p id="paperKeywords">—</p>
         </div>
 
         <div class="content-box" style="grid-column: 1 / -1;">
           <h3>Graphical Abstract / Figure</h3>
-          <div class="figure-box">
-            这里预留插图展示区域<br />
-            后续可接入 publisher 图像抓取或 PDF figure 提取
+          <div class="figure-box" id="paperFigureBox">
+            No figure detected
           </div>
         </div>
       </div>
     </section>
 
-    <section class="analysis-card">
+    <section class="card">
       <div class="analysis-header">
         <div>
-          <h2>AI Analysis</h2>
-          <div class="muted">双栏中英文对照，适合快速读文献和拆解写作逻辑</div>
+          <h2 class="section-title" style="margin-bottom: 4px;">AI Analysis</h2>
+          <div style="color:#6b7280;font-size:13px;">双栏中英文对照，适合快速读文献和拆解写作逻辑</div>
         </div>
         <div class="analysis-tag">Bilingual Output · 中文 / English</div>
       </div>
 
-      <div class="section-card">
-        <div class="section-title">
-          <h3>1. Research Topic</h3>
-          <div class="section-desc">研究主题与领域定位</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-本文聚焦于动态组合化学与超分子化学的交叉领域，研究两亲性微环境，尤其是胶束模板，如何影响动态库中组分的选择性放大与分布调控。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-This paper lies at the intersection of dynamic combinatorial chemistry and supramolecular chemistry, focusing on how amphiphilic microenvironments, especially micellar templates, influence selective amplification and product distribution within dynamic libraries.
-            </div>
-          </div>
-        </div>
+      <div class="analysis-actions">
+        <button class="btn btn-outline" type="button" onclick="toggleAllSections(true)">Expand All</button>
+        <button class="btn btn-outline" type="button" onclick="toggleAllSections(false)">Collapse All</button>
+        <button class="btn btn-outline" type="button" onclick="copyAllAnalysis()">Copy All Analysis</button>
       </div>
 
-      <div class="section-card">
-        <div class="section-title">
-          <h3>2. Research Problem</h3>
-          <div class="section-desc">核心科学问题</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-当前研究已经表明模板效应可以影响动态组合库的组成，但瞬态微环境对拓扑选择和产物偏向的系统性调控机制仍不清楚。本文试图回答：胶束型微环境能否作为外部环境因素，引导动态库朝特定产物方向演化。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-Previous work has established that templating effects can alter the composition of dynamic combinatorial libraries, yet the systematic role of transient microenvironments in topology selection and product bias remains unclear. This study asks whether micellar environments can function as external regulators that direct the library toward specific products.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>3. Introduction Logic</h3>
-          <div class="section-desc">Background → Gap → Question → Approach</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-Background：
-作者先介绍动态组合化学能够通过可逆反应形成具有适应性的分子网络。
-
-Gap：
-现有研究虽涉及模板效应，但对瞬态两亲性微环境如何调控拓扑选择理解不足。
-
-Question：
-作者进一步提出，环境因素是否能够像“选择压力”一样影响动态库的产物分布。
-
-Approach：
-因此本文采用胶束环境作为模型体系，研究其对动态组合库分布和目标组分放大的影响。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-Background:
-The introduction begins by presenting dynamic combinatorial chemistry as a platform for adaptive molecular networks formed through reversible reactions.
-
-Gap:
-Although templating effects have been studied, the role of transient amphiphilic microenvironments in controlling topology selection remains insufficiently understood.
-
-Question:
-The authors then ask whether environmental factors can act as a form of selective pressure on product distribution within the library.
-
-Approach:
-To address this question, the study uses micellar environments as model systems to examine their effects on library composition and selective amplification.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>4. Key Findings</h3>
-          <div class="section-desc">核心发现</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-1. 胶束微环境显著改变了动态组合库的组分分布。
-2. 特定宏环或目标组分在两亲性环境中得到选择性放大。
-3. 环境调控并非被动背景，而是能够直接影响体系选择结果的关键因素。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-1. Micellar microenvironments substantially alter the composition of the dynamic combinatorial library.
-2. Specific macrocycles or target species are selectively amplified under amphiphilic conditions.
-3. Environmental regulation is not merely a passive background effect but a direct determinant of selection outcomes in the system.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>5. Core Conclusion</h3>
-          <div class="section-desc">核心结论</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-本文表明，胶束等瞬态两亲性微环境能够作为有效的外部调控因素，驱动动态组合体系朝特定方向选择与放大，从而为理解自适应化学网络和化学进化中的环境选择机制提供了模型。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-The paper demonstrates that transient amphiphilic environments such as micelles can serve as effective external regulators that drive selection and amplification in dynamic combinatorial systems, providing a model for understanding environmental selection in adaptive chemical networks and chemical evolution.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>6. Why the Study Is High-Impact</h3>
-          <div class="section-desc">为什么可能具有高影响力</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-1. 提出了环境调控动态组合库的新视角。
-2. 将超分子微环境与体系选择机制建立了更直接的联系。
-3. 对 systems chemistry 与 chemical evolution 具有概念推进意义。
-4. 不仅有现象描述，也包含一定的机制解释潜力。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-1. The study introduces a new perspective on environmental regulation in dynamic combinatorial libraries.
-2. It establishes a more direct connection between supramolecular microenvironments and selection processes.
-3. It carries conceptual significance for systems chemistry and chemical evolution.
-4. The work offers not only phenomenological observations but also mechanistic explanatory potential.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>7. Future Research Directions</h3>
-          <div class="section-desc">未来研究方向</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-1. 比较不同类型两亲分子模板对动态库选择性的影响。
-2. 研究更复杂微环境中选择放大是否仍然成立。
-3. 将该策略拓展到自复制体系或更接近前生命化学的模型中。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-1. Compare the influence of different amphiphilic templates on library selectivity.
-2. Examine whether selective amplification persists in more complex microenvironments.
-3. Extend the strategy to self-replicating systems or models more relevant to prebiotic chemistry.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">
-          <h3>8. Possible Experiments</h3>
-          <div class="section-desc">可进一步设计的实验</div>
-        </div>
-        <div class="bilingual-grid">
-          <div class="lang-box">
-            <div class="lang-head">中文</div>
-            <div class="lang-body">
-1. 改变两亲分子的链长和头基类型，比较产物分布差异。
-2. 系统调节模板浓度，研究选择放大是否呈现阈值行为。
-3. 使用不同盐浓度或 pH 条件，考察环境参数与拓扑偏向之间的关系。
-            </div>
-          </div>
-          <div class="lang-box">
-            <div class="lang-head">English</div>
-            <div class="lang-body">
-1. Vary amphiphile chain length and headgroup identity to compare product distributions.
-2. Systematically tune template concentration to test whether selective amplification shows threshold behavior.
-3. Use different salt concentrations or pH conditions to probe the relationship between environmental parameters and topology bias.
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="analysisContainer"></div>
     </section>
 
-    <div class="footer">
-      © 2026 yangjh0421 · Paper Analyzer Prototype
-    </div>
+    <div class="footer">© 2026 yangjh0421 · Paper Analyzer</div>
   </div>
+
+  <script>
+    // 这里改成你的后端地址；本地运行保持这个即可
+    const BACKEND_BASE_URL = "http://127.0.0.1:8000";
+
+    const analysisMode = document.getElementById("analysisMode");
+    const modeText = document.getElementById("modeText");
+    const analyzeDoiBtn = document.getElementById("analyzeDoiBtn");
+    const doiInput = document.getElementById("doiInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const pdfInput = document.getElementById("pdfInput");
+    const dropzone = document.getElementById("dropzone");
+    const globalMessage = document.getElementById("globalMessage");
+    const analysisContainer = document.getElementById("analysisContainer");
+
+    const sectionTitleMap = {
+      research_topic: { title: "1. Research Topic", desc: "研究主题与领域定位" },
+      research_problem: { title: "2. Research Problem", desc: "核心科学问题" },
+      introduction_logic: { title: "3. Introduction Logic", desc: "Background → Gap → Question → Approach" },
+      key_findings: { title: "4. Key Findings", desc: "核心发现" },
+      core_conclusion: { title: "5. Core Conclusion", desc: "核心结论" },
+      high_impact: { title: "6. Why the Study Is High-Impact", desc: "为什么可能具有高影响力" },
+      future_research: { title: "7. Future Research Directions", desc: "未来研究方向" },
+      possible_experiments: { title: "8. Possible Experiments", desc: "可进一步设计的实验" },
+      limitations: { title: "9. Limitations", desc: "研究局限性" }
+    };
+
+    analysisMode.addEventListener("change", function () {
+      modeText.textContent = this.options[this.selectedIndex].text;
+    });
+
+    function showMessage(text, type = "success") {
+      globalMessage.className = "message " + type;
+      globalMessage.textContent = text;
+    }
+
+    function clearMessage() {
+      globalMessage.className = "message";
+      globalMessage.textContent = "";
+    }
+
+    function setPaperInfo(data) {
+      document.getElementById("paperTitle").textContent = data.title || "—";
+      document.getElementById("paperJournal").textContent = data.journal || "—";
+      document.getElementById("paperAuthors").textContent = (data.authors || []).join("; ") || "—";
+      document.getElementById("paperDoi").textContent = data.doi || "—";
+      document.getElementById("paperAbstract").textContent = data.abstract || "—";
+      document.getElementById("paperKeywords").textContent = (data.keywords || []).join("\n") || "—";
+      document.getElementById("paperFigureBox").textContent = data.figure_note || "No figure detected";
+    }
+
+    function renderAnalysis(analysis) {
+      analysisContainer.innerHTML = "";
+
+      for (const [key, value] of Object.entries(analysis)) {
+        const meta = sectionTitleMap[key] || { title: key, desc: "" };
+        const sectionId = "section-" + key;
+
+        const card = document.createElement("div");
+        card.className = "section-card";
+        card.innerHTML = `
+          <div class="section-top" onclick="toggleSection(this)">
+            <div class="section-left">
+              <div class="collapse-icon">▼</div>
+              <div class="section-heading">
+                <h3>${meta.title}</h3>
+                <div class="section-desc">${meta.desc}</div>
+              </div>
+            </div>
+            <div class="section-right">
+              <button class="mini-btn" onclick="event.stopPropagation(); copySection('${sectionId}')">Copy</button>
+            </div>
+          </div>
+          <div class="section-body" id="${sectionId}">
+            <div class="bilingual-grid">
+              <div class="lang-box">
+                <div class="lang-head">中文</div>
+                <div class="lang-body">${escapeHtml(value.zh || "—")}</div>
+              </div>
+              <div class="lang-box">
+                <div class="lang-head">English</div>
+                <div class="lang-body">${escapeHtml(value.en || "—")}</div>
+              </div>
+            </div>
+          </div>
+        `;
+        analysisContainer.appendChild(card);
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    async function analyzeByDoi() {
+      const doi = doiInput.value.trim();
+      if (!doi) {
+        showMessage("请先输入 DOI 或标题。", "error");
+        return;
+      }
+
+      clearMessage();
+      showMessage("正在解析 DOI 并生成分析，请稍候…", "success");
+      analyzeDoiBtn.disabled = true;
+
+      try {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/analyze-doi`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: doi,
+            mode: analysisMode.value
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "解析失败");
+
+        setPaperInfo(data.paper_info);
+        renderAnalysis(data.analysis);
+        showMessage("DOI 解析完成。", "success");
+      } catch (err) {
+        showMessage(err.message || "请求失败。", "error");
+      } finally {
+        analyzeDoiBtn.disabled = false;
+      }
+    }
+
+    async function analyzePdf(file) {
+      clearMessage();
+      showMessage("正在上传 PDF 并解析，请稍候…", "success");
+
+      const form = new FormData();
+      form.append("file", file);
+      form.append("mode", analysisMode.value);
+
+      try {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/analyze-pdf`, {
+          method: "POST",
+          body: form
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "PDF 解析失败");
+
+        setPaperInfo(data.paper_info);
+        renderAnalysis(data.analysis);
+        showMessage("PDF 解析完成。", "success");
+      } catch (err) {
+        showMessage(err.message || "请求失败。", "error");
+      }
+    }
+
+    analyzeDoiBtn.addEventListener("click", analyzeByDoi);
+
+    uploadBtn.addEventListener("click", () => pdfInput.click());
+    pdfInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) analyzePdf(file);
+    });
+
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "#93c5fd";
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.style.borderColor = "#cbd5e1";
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "#cbd5e1";
+      const file = e.dataTransfer.files[0];
+      if (file && file.type === "application/pdf") {
+        analyzePdf(file);
+      } else {
+        showMessage("请上传 PDF 文件。", "error");
+      }
+    });
+
+    function toggleSection(header) {
+      header.parentElement.classList.toggle("collapsed");
+    }
+
+    function toggleAllSections(expand) {
+      document.querySelectorAll(".section-card").forEach(card => {
+        if (expand) card.classList.remove("collapsed");
+        else card.classList.add("collapsed");
+      });
+    }
+
+    function copySection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      navigator.clipboard.writeText(section.innerText.trim()).then(() => {
+        showMessage("已复制该模块内容。", "success");
+      }).catch(() => {
+        showMessage("复制失败，请手动复制。", "error");
+      });
+    }
+
+    function copyAllAnalysis() {
+      const sections = document.querySelectorAll(".section-body");
+      let merged = "";
+      sections.forEach((section, index) => {
+        merged += section.innerText.trim();
+        if (index < sections.length - 1) merged += "\n\n--------------------\n\n";
+      });
+      navigator.clipboard.writeText(merged).then(() => {
+        showMessage("已复制全部分析内容。", "success");
+      }).catch(() => {
+        showMessage("复制失败，请手动复制。", "error");
+      });
+    }
+  </script>
 </body>
 </html>

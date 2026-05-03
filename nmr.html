@@ -5,260 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NMR 杂质峰检索</title>
 <style>
-:root{
-  --bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;
-  --primary:#2563eb;--primary-soft:#eff6ff;--ok:#059669;--warn:#d97706;--shadow:0 10px 30px rgba(0,0,0,.06);
-}
-body{margin:0;font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);}
-a{text-decoration:none;color:inherit}
-header{border-bottom:1px solid var(--line);background:white}
-.nav{display:flex;justify-content:center;gap:24px;padding:16px;flex-wrap:wrap}
-.nav a{color:var(--muted);font-weight:500}.nav a:hover,.nav a.active{color:var(--primary)}
-.container{max-width:1150px;margin:auto;padding:36px 20px 60px}
-.hero{text-align:center;margin-bottom:28px}.hero h1{margin:0;font-size:32px}.hero p{margin-top:10px;color:var(--muted)}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px;margin-bottom:22px}
-.section-title{font-size:20px;font-weight:700;margin-bottom:14px}
-.form-row{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:center;margin-bottom:14px}
-label{font-weight:600}select,input{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:white}
-select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-.btn{display:inline-block;border:none;background:var(--primary);color:white;padding:12px 18px;border-radius:10px;cursor:pointer;font-size:15px;font-weight:600}
-.btn:hover{opacity:.92}.btn.secondary{background:#374151}
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.info-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.info-card .k{color:var(--muted);font-size:13px;margin-bottom:6px}.info-card .v{font-size:17px;font-weight:700;line-height:1.5}
-.badge{display:inline-block;background:var(--primary-soft);color:var(--primary);padding:4px 8px;border-radius:999px;font-size:13px;margin:2px 4px 2px 0}
-.note{color:var(--muted);line-height:1.7;font-size:14px}.warning{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px 14px;border-radius:10px;line-height:1.7;font-size:14px}
-.result-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}.result-table th,.result-table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.result-table th{background:#f9fafb;font-weight:700}
-.match-good{color:var(--ok);font-weight:700}.match-warn{color:var(--warn);font-weight:700}.empty{color:var(--muted);padding:18px 0}
-.small{font-size:13px;color:var(--muted);line-height:1.6}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}.pill{background:#f3f4f6;border-radius:999px;padding:6px 10px;font-size:13px;color:#374151}
-footer{margin-top:50px;text-align:center;color:var(--muted);font-size:14px}
-@media(max-width:700px){.form-row{grid-template-columns:1fr}.result-table{font-size:13px}}
+:root{--bg:#f6f7fb;--card:#fff;--text:#102033;--muted:#687386;--line:#e2e8f0;--primary:#2563eb;--primary-soft:#eff6ff;--ok:#059669;--warn:#d97706;--danger:#dc2626;--shadow:0 10px 30px rgba(15,23,42,.06)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}a{text-decoration:none;color:inherit}header{border-bottom:1px solid var(--line);background:white}.nav{display:flex;justify-content:center;gap:24px;padding:16px;flex-wrap:wrap}.nav a{color:var(--muted);font-weight:500}.nav a:hover,.nav a.active{color:var(--primary)}.container{max-width:1180px;margin:auto;padding:34px 18px 60px}.hero{text-align:center;margin-bottom:26px}.hero h1{margin:0;font-size:32px}.hero p{margin:10px 0 0;color:var(--muted);line-height:1.7}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:24px;margin-bottom:22px}.section-title{font-size:21px;font-weight:800;margin-bottom:16px}.form-row{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:center;margin-bottom:14px}label{font-weight:700}select,input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:white}select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.12)}.btn{display:inline-block;border:none;background:var(--primary);color:white;padding:12px 18px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700}.btn:hover{opacity:.92}.btn.secondary{background:#374151}.btn.ghost{background:#eef2f7;color:#334155}.solvent-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}.solvent-btn{border:1px solid var(--line);background:white;border-radius:14px;padding:12px;text-align:left;cursor:pointer;transition:.15s}.solvent-btn:hover{border-color:#93c5fd;transform:translateY(-1px)}.solvent-btn.active{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 3px rgba(37,99,235,.10)}.solvent-btn .id{font-weight:800;color:#0f172a}.solvent-btn .cn{font-size:13px;color:var(--muted);margin-top:3px}.compact-info{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:16px}.compact-info table{width:100%;border-collapse:collapse}.compact-info th,.compact-info td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.compact-info th{width:170px;color:var(--muted);font-weight:700;background:#f9fafb}.compact-info tr:last-child th,.compact-info tr:last-child td{border-bottom:none}.badge{display:inline-block;background:var(--primary-soft);color:var(--primary);padding:4px 8px;border-radius:999px;font-size:13px;margin:2px 4px 2px 0}.note{color:var(--muted);line-height:1.7;font-size:14px}.hint{margin-top:8px;color:var(--primary);font-size:14px}.warning{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px 14px;border-radius:12px;line-height:1.7;font-size:14px;margin-top:14px}.calibration-box{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:12px}.radio-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.radio-row label{font-weight:600}.radio-row input{width:auto}.inline-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.metric{background:white;border:1px solid var(--line);border-radius:12px;padding:12px}.metric .k{font-size:13px;color:var(--muted);margin-bottom:5px}.metric .v{font-size:18px;font-weight:800}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.result-section{margin-top:16px}.result-title{font-size:18px;font-weight:800;margin:18px 0 8px}.result-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.result-table th,.result-table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.result-table th{background:#f9fafb;font-weight:800}.match-good{color:var(--ok);font-weight:800}.match-warn{color:var(--warn);font-weight:800}.empty{color:var(--muted);padding:16px 0}.small{font-size:13px;color:var(--muted);line-height:1.6}.doi a{color:var(--primary);font-weight:600}.doi a:hover{text-decoration:underline}.notice{background:#ecfeff;border:1px solid #a5f3fc;color:#155e75;padding:12px 14px;border-radius:12px;margin:12px 0;line-height:1.7}.hidden{display:none!important}footer{margin-top:50px;text-align:center;color:var(--muted);font-size:14px}@media(max-width:720px){.form-row{grid-template-columns:1fr}.compact-info th{width:120px}.result-table{font-size:13px}.container{padding-left:10px;padding-right:10px}}
 </style>
 </head>
 <body>
-<header>
-  <nav class="nav">
-    <a href="link.html">期刊</a>
-    <a href="literature.html">文献</a>
-    <a href="monitor.html">监控</a>
-    <a class="active" href="nmr.html">NMR</a>
-    <a href="otherlinks.html">Other</a>
-  </nav>
-</header>
-
+<header><nav class="nav"><a href="link.html">期刊</a><a href="literature.html">文献</a><a href="monitor.html">监控</a><a class="active" href="nmr.html">NMR</a><a href="otherlinks.html">Other</a></nav></header>
 <div class="container">
-  <div class="hero">
-    <h1>🧪 NMR 杂质峰检索</h1>
-    <p>先选择氘代试剂，再查看标准溶剂峰、水峰，并按 ppm 匹配常见杂质峰。</p>
-  </div>
+  <div class="hero"><h1>🧪 NMR 杂质峰检索</h1><p>先选择氘代试剂，再根据谱图是否校准决定是否自动修正 ppm 偏移。</p></div>
 
   <div class="panel">
     <div class="section-title">Step 1：选择氘代试剂</div>
-    <div class="form-row">
-      <label for="solventSearch">快速定位</label>
-      <input id="solventSearch" placeholder="可输入：DMSO、氯仿、CDCl3、acetone、甲醇等">
+    <div class="form-row"><label for="solventSearch">快速定位</label><input id="solventSearch" placeholder="可输入：氘水、D2O、乙腈、CD3CN、DMSO、氯仿等"></div>
+    <div class="note">也可以直接从下面菜单选择。搜索框只用于定位，最终以当前选中的标准氘代试剂为准。</div>
+    <div id="solventHint" class="hint"></div>
+    <div class="solvent-menu" id="solventMenu"></div>
+    <div class="compact-info">
+      <table>
+        <tbody>
+          <tr><th>当前选择</th><td id="currentSolvent">-</td></tr>
+          <tr><th>标准峰</th><td><strong>¹H 残余溶剂峰：</strong><span id="hPeak">-</span><br><strong>¹³C 溶剂峰：</strong><span id="cPeak">-</span><br><strong>水峰：</strong><span id="waterPeak">-</span></td></tr>
+          <tr><th>别名</th><td id="aliases">-</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div class="form-row">
-      <label for="solventSelect">氘代试剂</label>
-      <select id="solventSelect"></select>
-    </div>
-    <div class="note">搜索框只用于定位，最终检索以选中的标准氘代试剂为准。</div>
+    <div class="warning" id="solventNote">-</div>
   </div>
 
   <div class="panel">
-    <div class="section-title">Step 2：当前氘代试剂标准信息</div>
-    <div class="info-grid">
-      <div class="info-card"><div class="k">当前氘代试剂</div><div class="v" id="currentSolvent">-</div></div>
-      <div class="info-card"><div class="k">英文名 / 其他写法</div><div class="v" id="aliases">-</div></div>
-      <div class="info-card"><div class="k">¹H 残余溶剂峰</div><div class="v" id="hPeak">-</div></div>
-      <div class="info-card"><div class="k">¹³C 溶剂峰</div><div class="v" id="cPeak">-</div></div>
-      <div class="info-card"><div class="k">水峰</div><div class="v" id="waterPeak">-</div></div>
+    <div class="section-title">Step 2：选择核种与谱图校准方式</div>
+    <div class="form-row"><label for="nucleusSelect">核种</label><select id="nucleusSelect"><option value="1H">¹H NMR</option><option value="13C">¹³C NMR</option></select></div>
+    <div class="calibration-box">
+      <div class="radio-row">
+        <label><input type="radio" name="calMode" value="calibrated" checked> 已校准谱图 / 直接使用标准 ppm</label>
+        <label><input type="radio" name="calMode" value="uncalibrated"> 未校准谱图 / 输入实测溶剂峰自动计算 Δδ</label>
+      </div>
+      <div id="uncalibratedInputs" class="hidden">
+        <div class="form-row"><label for="refPeakSelect">标准校准峰</label><select id="refPeakSelect"></select></div>
+        <div class="form-row"><label for="observedSolventPeak">实测溶剂峰 ppm</label><input id="observedSolventPeak" placeholder="例如 CD3CN 的 ¹H 残余峰实测为 2.10"></div>
+      </div>
+      <div class="inline-grid">
+        <div class="metric"><div class="k">当前标准校准峰</div><div class="v" id="stdCalPeak">-</div></div>
+        <div class="metric"><div class="k">谱图整体偏移 Δδ</div><div class="v" id="deltaDisplay">0.000 ppm</div></div>
+        <div class="metric"><div class="k">匹配方式</div><div class="v" id="calModeLabel">标准峰直接匹配</div></div>
+      </div>
+      <div class="small" style="margin-top:10px;">未校准模式下：Δδ = 实测溶剂峰 − 标准溶剂峰；后续数据库峰位按 “标准峰 + Δδ” 与你输入的实测未知峰匹配。</div>
     </div>
-    <div style="margin-top:16px;" class="warning" id="solventNote">-</div>
   </div>
 
   <div class="panel">
-    <div class="section-title">Step 3：选择核种与输入未知峰</div>
-    <div class="form-row">
-      <label for="nucleusSelect">核种</label>
-      <select id="nucleusSelect">
-        <option value="1H">¹H NMR</option>
-        <option value="13C">¹³C NMR</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label for="ppmInput">未知峰 ppm</label>
-      <input id="ppmInput" placeholder="例如：4.12 或 4.12, 2.05, 1.26">
-    </div>
-    <div class="form-row">
-      <label for="candidateInput">候选杂质名</label>
-      <input id="candidateInput" placeholder="可选：乙酸乙酯 / ethyl acetate / EtOAc">
-    </div>
-    <div class="form-row">
-      <label for="toleranceInput">容差 ppm</label>
-      <input id="toleranceInput" value="0.03">
-    </div>
-    <div class="toolbar">
-      <button class="btn" onclick="searchPeaks()">检索候选杂质</button>
-      <button class="btn secondary" onclick="showCandidateOnly()">只查候选杂质整组峰</button>
-      <span class="pill" id="dataCount">数据库载入中...</span>
-    </div>
-    <div class="note" style="margin-top:12px;">¹H 默认容差建议 ±0.03 ppm；¹³C 默认容差建议 ±0.3 ppm。单峰只能作为提示，多峰同时命中才更适合确认。</div>
+    <div class="section-title">Step 3：输入未知峰或候选杂质</div>
+    <div class="form-row"><label for="ppmInput">未知峰 ppm</label><input id="ppmInput" placeholder="例如：4.12 或 4.12, 2.05, 1.26"></div>
+    <div class="form-row"><label for="candidateInput">候选杂质名</label><input id="candidateInput" placeholder="例如：甲醇 / methanol / MeOH"></div>
+    <div class="form-row"><label for="toleranceInput">容差 ppm</label><input id="toleranceInput" value="0.03"></div>
+    <div class="toolbar"><button class="btn" onclick="searchAll()">检索</button><button class="btn ghost" onclick="clearInputs()">清空输入</button></div>
+    <div class="note" style="margin-top:12px;">两个输入框可以同时使用：如果同时输入 ppm 和候选杂质名，系统会分别显示两类结果。</div>
   </div>
 
-  <div class="panel">
-    <div class="section-title">Step 4：候选结果</div>
-    <div id="resultArea" class="empty">请输入 ppm 后点击检索；或输入候选杂质名后点击“只查候选杂质整组峰”。</div>
-  </div>
+  <div class="panel"><div class="section-title">Step 4：候选结果</div><div id="resultArea" class="empty">请输入 ppm 或候选杂质名后点击检索。</div></div>
 
   <footer>© <span id="year"></span> yangjh0421</footer>
 </div>
-
 <script src="nmr-data.js"></script>
 <script>
-function $(id){return document.getElementById(id)}
-function normText(x){return String(x||"").toLowerCase().replace(/[\s\-_()（）]/g,"")}
-function currentSolvent(){
-  return NMR_SOLVENTS.find(x => x.id === $("solventSelect").value) || NMR_SOLVENTS[0]
-}
-function populateSolvents(filter=""){
-  const sel=$("solventSelect")
-  const current=sel.value
-  const f=normText(filter)
-  const list=NMR_SOLVENTS.filter(s => !f || [s.id,s.label,s.cn,s.en,...s.aliases].some(a=>normText(a).includes(f)))
-  sel.innerHTML=list.map(s=>`<option value="${s.id}">${s.label}</option>`).join("")
-  if(list.some(s=>s.id===current)) sel.value=current
-  updateSolventInfo()
-}
-function updateSolventInfo(){
-  const s=currentSolvent()
-  $("currentSolvent").textContent=`${s.cn} / ${s.id}`
-  $("aliases").innerHTML=s.aliases.map(x=>`<span class="badge">${escapeHtml(x)}</span>`).join("")
-  $("hPeak").textContent=s.h
-  $("cPeak").textContent=s.c
-  $("waterPeak").textContent=s.water
-  $("solventNote").textContent=s.note
-}
-function updateToleranceByNucleus(){
-  $("toleranceInput").value = $("nucleusSelect").value === "13C" ? "0.3" : "0.03"
-}
-function parsePpmInput(text){
-  return String(text||"").split(/[,，;；\s]+/).map(x=>parseFloat(x)).filter(x=>!isNaN(x))
-}
-function escapeHtml(x){
-  return String(x??"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))
-}
-function inCurrentSolvent(row){
-  const s=currentSolvent()
-  return s.match.includes(row.solvent)
-}
-function baseRows(){
-  return NMR_PEAKS.filter(r => inCurrentSolvent(r) && r.nucleus === $("nucleusSelect").value)
-}
-function rowKeyword(row){
-  return [row.impurity,row.impurityCn,row.impurityAbbr,row.atom,row.source].join(" ").toLowerCase()
-}
-function matchesCandidate(row, kw){
-  const n=normText(kw)
-  if(!n) return true
-  return [row.impurity,row.impurityCn,row.impurityAbbr].some(x=>normText(x).includes(n))
-}
-function groupByImpurity(rows){
-  const map=new Map()
-  rows.forEach(r=>{
-    const key=[r.impurity,r.impurityCn,r.impurityAbbr].join("|")
-    if(!map.has(key)) map.set(key,{impurity:r.impurity,impurityCn:r.impurityCn,abbr:r.impurityAbbr,rows:[]})
-    map.get(key).rows.push(r)
-  })
-  return [...map.values()]
-}
-function diffToInputs(row,inputPeaks){
-  let best=Infinity, bestInput=null
-  inputPeaks.forEach(p=>{
-    const d=Math.abs(p-row.shift)
-    if(d<best){best=d;bestInput=p}
-  })
-  return {best,bestInput}
-}
-function searchPeaks(){
-  const inputPeaks=parsePpmInput($("ppmInput").value)
-  const tol=parseFloat($("toleranceInput").value)
-  const cand=$("candidateInput").value
-  const area=$("resultArea")
-  if(inputPeaks.length===0){
-    area.innerHTML=`<div class="empty">请先输入一个或多个 ppm 数值。</div>`
-    return
-  }
-  const rows=baseRows().filter(r=>matchesCandidate(r,cand))
-  const groups=groupByImpurity(rows).map(g=>{
-    const matchedRows=[]
-    const matchedInputs=new Set()
-    let minDiff=Infinity
-    g.rows.forEach(r=>{
-      const d=diffToInputs(r,inputPeaks)
-      if(d.best<=tol){
-        matchedRows.push({...r,diff:d.best,input:d.bestInput})
-        matchedInputs.add(String(d.bestInput))
-        minDiff=Math.min(minDiff,d.best)
-      }
-    })
-    return {...g,matchedRows,matchCount:matchedInputs.size,minDiff}
-  }).filter(g=>g.matchedRows.length>0)
-    .sort((a,b)=> b.matchCount-a.matchCount || a.minDiff-b.minDiff || a.impurity.localeCompare(b.impurity))
-  renderGroups(groups, inputPeaks.length)
-}
-function showCandidateOnly(){
-  const cand=$("candidateInput").value
-  const area=$("resultArea")
-  if(!cand.trim()){
-    area.innerHTML=`<div class="empty">请先输入候选杂质名，例如：乙酸乙酯 / ethyl acetate / EtOAc。</div>`
-    return
-  }
-  const groups=groupByImpurity(baseRows().filter(r=>matchesCandidate(r,cand))).sort((a,b)=>a.impurity.localeCompare(b.impurity))
-  renderGroups(groups, 0, true)
-}
-function peakList(rows){
-  return rows.slice().sort((a,b)=>a.shift-b.shift).map(r=>{
-    const mult = r.multiplicity ? `, ${escapeHtml(r.multiplicity)}` : ""
-    const atom = r.atom ? `, ${escapeHtml(r.atom)}` : ""
-    return `<span class="badge">${escapeHtml(r.raw)} ppm${mult}${atom}</span>`
-  }).join(" ")
-}
-function sourceList(rows){
-  const seen=[...new Map(rows.map(r=>[r.source+"|"+r.url,r])).values()]
-  return seen.map(r=> r.url ? `<a href="${escapeHtml(r.url)}" target="_blank">${escapeHtml(r.source)}</a>` : escapeHtml(r.source)).join("<br>")
-}
-function renderGroups(groups, inputCount=0, candidateOnly=false){
-  const area=$("resultArea")
-  if(groups.length===0){
-    area.innerHTML=`<div class="empty">当前氘代试剂和核种下没有匹配结果。可以放宽容差、检查溶剂选择，或改用候选杂质名查询整组峰。</div>`
-    return
-  }
-  let html=`<table class="result-table"><thead><tr>
-    <th>候选杂质</th><th>${candidateOnly?"整组参考峰":"命中情况"}</th><th>全部参考峰</th><th>来源/备注</th>
-  </tr></thead><tbody>`
-  groups.slice(0,80).forEach(g=>{
-    const level = g.matchCount>=2 ? "match-good" : "match-warn"
-    const label = candidateOnly ? "候选物整组峰" : (g.matchCount>=2 ? "多峰命中" : "单峰命中")
-    const matched = candidateOnly ? peakList(g.rows) : g.matchedRows.map(r=>{
-      return `<span class="badge">${escapeHtml(r.input)} → ${escapeHtml(r.raw)} ppm, Δ ${r.diff.toFixed(3)}</span>`
-    }).join(" ")
-    html+=`<tr>
-      <td><strong>${escapeHtml(g.impurityCn||g.impurity)}</strong><br>${escapeHtml(g.impurity)}<br><span class="badge">${escapeHtml(g.abbr||"-")}</span></td>
-      <td><span class="${level}">${label}${candidateOnly?"":"："+g.matchCount+"/"+inputCount}</span><br>${matched}</td>
-      <td>${peakList(g.rows)}</td>
-      <td>${sourceList(g.rows)}<div class="small">单峰仅提示；请结合其他峰、峰型、积分比例、样品处理过程确认。</div></td>
-    </tr>`
-  })
-  html+=`</tbody></table>`
-  if(groups.length>80) html+=`<div class="note" style="margin-top:10px;">结果较多，仅显示前 80 个；建议缩小容差或输入多个峰。</div>`
-  area.innerHTML=html
-}
-$("solventSearch").addEventListener("input", e=>populateSolvents(e.target.value))
-$("solventSelect").addEventListener("change", updateSolventInfo)
-$("nucleusSelect").addEventListener("change", updateToleranceByNucleus)
-$("year").textContent=new Date().getFullYear()
-populateSolvents()
-$("dataCount").textContent=`已载入 ${NMR_DATA_VERSION.rows} 条峰位数据`
+let selectedSolventId = (NMR_SOLVENTS && NMR_SOLVENTS[0] && NMR_SOLVENTS[0].id) || 'CDCl3';
+function normalizeText(s){return String(s||'').toLowerCase().replace(/[\s\-_()（）·,，.。/\\]+/g,'').replace(/氘代/g,'氘').replace(/重氢/g,'氘').replace(/deuterated/g,'').replace(/heavywater/g,'d2o');}
+function solventScore(solvent, q){if(!q)return 0;const nq=normalizeText(q);let best=0;const terms=[solvent.id,solvent.label,solvent.cn,solvent.en].concat(solvent.aliases||[]);for(const t of terms){const nt=normalizeText(t);if(!nt)continue;if(nt===nq)best=Math.max(best,100);else if(nt.includes(nq)||nq.includes(nt))best=Math.max(best,80);else {let common=0;for(const ch of nq){if(nt.includes(ch))common++;}best=Math.max(best, Math.round(common/Math.max(nq.length,1)*50));}}return best;}
+function currentSolvent(){return NMR_SOLVENTS.find(s=>s.id===selectedSolventId)||NMR_SOLVENTS[0];}
+function renderSolventMenu(filterText=''){const menu=document.getElementById('solventMenu');const q=filterText.trim();let scored=NMR_SOLVENTS.map(s=>({s,score:solventScore(s,q)}));let list=q?scored.filter(x=>x.score>=25).sort((a,b)=>b.score-a.score).map(x=>x.s):NMR_SOLVENTS;if(q && list.length===0) list=NMR_SOLVENTS;menu.innerHTML=list.map(s=>`<button type="button" class="solvent-btn ${s.id===selectedSolventId?'active':''}" onclick="selectSolvent('${escapeAttr(s.id)}')"><div class="id">${escapeHtml(s.id)}</div><div class="cn">${escapeHtml(s.cn)}</div></button>`).join('');}
+function selectSolvent(id){selectedSolventId=id;renderSolventMenu(document.getElementById('solventSearch').value);updateSolventInfo();updateRefPeakOptions();}
+function updateSolventInfo(){const s=currentSolvent();document.getElementById('currentSolvent').innerHTML=`<strong>${escapeHtml(s.cn)} / ${escapeHtml(s.id)}</strong> <span class="small">${escapeHtml(s.en||'')}</span>`;document.getElementById('hPeak').textContent=s.h||'-';document.getElementById('cPeak').textContent=s.c||'-';document.getElementById('waterPeak').textContent=s.water||'-';document.getElementById('aliases').innerHTML=(s.aliases||[]).slice(0,14).map(a=>`<span class="badge">${escapeHtml(a)}</span>`).join('');document.getElementById('solventNote').textContent=s.note||'-';}
+function handleSolventSearch(){const q=document.getElementById('solventSearch').value.trim();const hint=document.getElementById('solventHint');if(!q){hint.textContent='';renderSolventMenu('');return;}const scored=NMR_SOLVENTS.map(s=>({s,score:solventScore(s,q)})).sort((a,b)=>b.score-a.score);const best=scored[0];if(best && best.score>=45){selectedSolventId=best.s.id;hint.textContent=best.score>=100?`已定位到：${best.s.cn} / ${best.s.id}`:`未找到完全匹配，已给出最可能选项：${best.s.cn} / ${best.s.id}`;updateSolventInfo();updateRefPeakOptions();}else{hint.textContent='未找到明确匹配；请从菜单中选择。';}renderSolventMenu(q);}
+function extractNumbers(text){return String(text||'').match(/-?\d+(?:\.\d+)?/g)?.map(Number)||[];}
+function updateRefPeakOptions(){const s=currentSolvent();const nucleus=document.getElementById('nucleusSelect').value;const nums=extractNumbers(nucleus==='13C'?s.c:s.h);const sel=document.getElementById('refPeakSelect');sel.innerHTML='';if(nums.length===0){sel.innerHTML='<option value="">无可用标准峰</option>';}else{nums.forEach(n=>{const o=document.createElement('option');o.value=String(n);o.textContent=n.toFixed(n%1===0?0:2)+' ppm';sel.appendChild(o);});}updateCalibration();}
+function currentDelta(){const mode=document.querySelector('input[name="calMode"]:checked').value;if(mode==='calibrated')return 0;const std=parseFloat(document.getElementById('refPeakSelect').value);const obs=parseFloat(document.getElementById('observedSolventPeak').value);if(isNaN(std)||isNaN(obs))return 0;return obs-std;}
+function updateCalibration(){const mode=document.querySelector('input[name="calMode"]:checked').value;document.getElementById('uncalibratedInputs').classList.toggle('hidden',mode!=='uncalibrated');const std=parseFloat(document.getElementById('refPeakSelect').value);document.getElementById('stdCalPeak').textContent=isNaN(std)?'-':std.toFixed(3)+' ppm';const delta=currentDelta();document.getElementById('deltaDisplay').textContent=(delta>=0?'+':'')+delta.toFixed(3)+' ppm';document.getElementById('calModeLabel').textContent=mode==='calibrated'?'标准峰直接匹配':'数据库峰位自动加 Δδ 后匹配';}
+function updateTolerance(){const nucleus=document.getElementById('nucleusSelect').value;document.getElementById('toleranceInput').value=nucleus==='13C'?'0.3':'0.03';updateRefPeakOptions();}
+function parsePpmInput(text){return String(text||'').split(/[,，\s;；]+/).map(x=>parseFloat(x)).filter(x=>!isNaN(x));}
+function cleanName(s){return normalizeText(String(s||''));}
+function peakLabel(p, delta=0){const standard=Number(p.shift);const shifted=standard+delta;const atom=p.atom?`, ${escapeHtml(p.atom)}`:'';const mult=p.multiplicity?`, ${escapeHtml(p.multiplicity)}`:'';return {standard:`${formatPpm(standard)} ppm${atom}${mult}`, shifted:`${formatPpm(shifted)} ppm${atom}${mult}`};}
+function formatPpm(x){if(!isFinite(x))return '-';return (Math.round(x*1000)/1000).toFixed(3).replace(/0+$/,'').replace(/\.$/,'');}
+function groupRows(rows){const map=new Map();for(const r of rows){const key=[r.nucleus,r.solvent,cleanName(r.impurity),cleanName(r.impurityCn),cleanName(r.impurityAbbr)].join('|');if(!map.has(key))map.set(key,{impurity:r.impurity,impurityCn:r.impurityCn,impurityAbbr:r.impurityAbbr,rows:[]});map.get(key).rows.push(r);}return Array.from(map.values());}
+function uniquePeakList(rows, delta, shifted=false){const seen=new Map();for(const p of rows){const lab=peakLabel(p,delta);const txt=shifted?lab.shifted:lab.standard;const key=[formatPpm(p.shift),p.atom||'',p.multiplicity||''].join('|');if(!seen.has(key))seen.set(key,txt);}return Array.from(seen.values());}
+function doiLinks(rows){const urls=[];for(const r of rows){if(r.url && !urls.includes(r.url))urls.push(r.url);}return urls.map(u=>{const doi=u.replace(/^https?:\/\/doi\.org\//,'');return `<div><a href="${escapeAttr(u)}" target="_blank" rel="noopener">DOI: ${escapeHtml(doi)}</a></div>`;}).join('')||'<span class="small">-</span>';}
+function countMatches(inputPeaks, rows, tol, delta){let count=0;const matched=[];let best=Infinity;for(const ip of inputPeaks){let bestRow=null,bestDiff=Infinity,bestShift=null;for(const r of rows){const sp=Number(r.shift)+delta;const d=Math.abs(ip-sp);if(d<bestDiff){bestDiff=d;bestRow=r;bestShift=sp;}}if(bestDiff<best)best=bestDiff;if(bestRow && bestDiff<=tol){count++;matched.push(`${formatPpm(ip)} → ${formatPpm(bestShift)} (标准 ${formatPpm(bestRow.shift)}, Δ ${bestDiff.toFixed(3)})`);}}return {count,matched,best};}
+function renderPpmResults(inputPeaks, tol, delta){const solvent=selectedSolventId,nucleus=document.getElementById('nucleusSelect').value;const rows=NMR_PEAKS.filter(p=>p.solvent===solvent&&p.nucleus===nucleus);const groups=groupRows(rows).map(g=>({...g,...countMatches(inputPeaks,g.rows,tol,delta)})).filter(g=>g.count>0).sort((a,b)=>b.count-a.count||a.best-b.best).slice(0,80);if(groups.length===0)return '<div class="empty">按 ppm 未找到匹配结果。可以放宽容差，或检查氘代试剂/核种/校准偏移是否正确。</div>';let html='<div class="result-title">A. 按未知峰 ppm 反查候选杂质</div><table class="result-table"><thead><tr><th>候选杂质</th><th>命中情况</th><th>标准参考峰</th><th>偏移后预计峰</th><th>来源 DOI</th></tr></thead><tbody>';for(const g of groups){const level=g.count>=2?'match-good':'match-warn';html+=`<tr><td><strong>${escapeHtml(g.impurityCn||g.impurity)}</strong><br>${escapeHtml(g.impurity||'')}<br><span class="badge">${escapeHtml(g.impurityAbbr||'')}</span></td><td><span class="${level}">${g.count>=2?'多峰命中':'单峰命中'}：${g.count} 个</span><br>${g.matched.map(escapeHtml).join('<br>')}</td><td>${uniquePeakList(g.rows,0,false).map(x=>`<span class="badge">${x}</span>`).join('')}</td><td>${uniquePeakList(g.rows,delta,true).map(x=>`<span class="badge">${x}</span>`).join('')}</td><td class="doi">${doiLinks(g.rows)}</td></tr>`;}return html+'</tbody></table>';}
+function renderCandidateResults(text, delta){const q=cleanName(text);const solvent=selectedSolventId,nucleus=document.getElementById('nucleusSelect').value;const rows=NMR_PEAKS.filter(p=>p.solvent===solvent&&p.nucleus===nucleus).filter(p=>[p.impurity,p.impurityCn,p.impurityAbbr].some(v=>cleanName(v).includes(q)||q.includes(cleanName(v))));const groups=groupRows(rows).sort((a,b)=>(a.impurityCn||a.impurity).localeCompare(b.impurityCn||b.impurity,'zh')).slice(0,80);if(groups.length===0)return '<div class="empty">按候选杂质名未找到结果。可尝试英文名、中文名或缩写，例如 methanol / 甲醇 / MeOH。</div>';let html='<div class="result-title">B. 按候选杂质名查询整组参考峰</div><table class="result-table"><thead><tr><th>候选杂质</th><th>标准参考峰</th><th>偏移后预计峰</th><th>来源 DOI</th></tr></thead><tbody>';for(const g of groups){html+=`<tr><td><strong>${escapeHtml(g.impurityCn||g.impurity)}</strong><br>${escapeHtml(g.impurity||'')}<br><span class="badge">${escapeHtml(g.impurityAbbr||'')}</span></td><td>${uniquePeakList(g.rows,0,false).map(x=>`<span class="badge">${x}</span>`).join('')}</td><td>${uniquePeakList(g.rows,delta,true).map(x=>`<span class="badge">${x}</span>`).join('')}</td><td class="doi">${doiLinks(g.rows)}</td></tr>`;}return html+'</tbody></table>';}
+function searchAll(){const ppms=parsePpmInput(document.getElementById('ppmInput').value);const cand=document.getElementById('candidateInput').value.trim();const tol=parseFloat(document.getElementById('toleranceInput').value)||0.03;const delta=currentDelta();let html='';if(ppms.length===0&&!cand){document.getElementById('resultArea').innerHTML='<div class="empty">请输入 ppm 或候选杂质名后点击检索。</div>';return;}if(ppms.length>0&&cand)html+='<div class="notice">检测到你同时输入了未知峰和候选杂质名，下面分别显示两种检索结果。</div>';if(ppms.length>0)html+=renderPpmResults(ppms,tol,delta);if(cand)html+=renderCandidateResults(cand,delta);document.getElementById('resultArea').innerHTML=html;}
+function clearInputs(){document.getElementById('ppmInput').value='';document.getElementById('candidateInput').value='';document.getElementById('resultArea').innerHTML='<div class="empty">请输入 ppm 或候选杂质名后点击检索。</div>';}
+function escapeHtml(s){return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+function escapeAttr(s){return escapeHtml(s).replace(/'/g,'&#39;');}
+
+document.getElementById('solventSearch').addEventListener('input',handleSolventSearch);document.getElementById('nucleusSelect').addEventListener('change',updateTolerance);document.querySelectorAll('input[name="calMode"]').forEach(x=>x.addEventListener('change',updateCalibration));document.getElementById('refPeakSelect').addEventListener('change',updateCalibration);document.getElementById('observedSolventPeak').addEventListener('input',updateCalibration);document.getElementById('year').textContent=new Date().getFullYear();renderSolventMenu();updateSolventInfo();updateRefPeakOptions();
 </script>
 </body>
 </html>

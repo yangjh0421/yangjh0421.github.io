@@ -84,7 +84,7 @@ footer{margin-top:50px;text-align:center;color:var(--muted);font-size:14px}
   <div class="panel"><div class="section-title">Step 4：候选结果</div><div id="resultArea" class="empty">请输入 ppm 或候选杂质名后点击检索。</div></div>
   <footer>© <span id="year"></span> yangjh0421</footer>
 </div>
-<script src="nmr-data.js"></script>
+<script src="nmr-data.js?v=20260503-rangefix"></script>
 <script>
 let selectedSolventId = (NMR_SOLVENTS && NMR_SOLVENTS[0] && NMR_SOLVENTS[0].id) || 'CDCl3';
 function normalizeText(s){return String(s||'').toLowerCase().replace(/[\s\-_()（）·,，.。/\\]+/g,'').replace(/氘代/g,'氘').replace(/重氢/g,'氘').replace(/deuterated/g,'').replace(/heavywater/g,'d2o');}

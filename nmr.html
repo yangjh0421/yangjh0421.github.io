@@ -1,1 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMR 杂质峰检索</title>
 
+<style>
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --primary:#2563eb;
+  --primary-soft:#eff6ff;
+  --danger:#dc2626;
+  --warning:#d97706;
+  --ok:#059669;
+  --shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+body{
+  margin:0;
+  font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+header{
+  border-bottom:1px solid var(--line);
+  background:white;
+}
+
+.nav{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  padding:16px;
+}
+
+.nav a{
+  color:var(--muted);
+  font-weight:500;
+}
+
+.nav a:hover,
+.nav a.active{
+  color:var(--primary);
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:36px 20px 60px;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:32px;
+}
+
+.hero p{
+  margin-top:10px;
+  color:var(--muted);
+}
+
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:24px;
+  margin-bottom:22px;
+}
+
+.section-title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:14px;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+label{
+  font-weight:600;
+}
+
+select,
+input{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  font-size:15px;
+  background:white;
+}
+
+select:focus,
+input:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+
+.btn{
+  display:inline-block;
+  border:none;
+  background:var(--primary);
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+}
+
+.btn:hover{
+  opacity:.92;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+.info-card{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  background:#fff;
+}
+
+.info-card .k{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.info-card .v{
+  font-size:17px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.badge{
+  display:inline-block;
+  background:var(--primary-soft);
+  color:var(--primary);
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:13px;
+  margin:2px 4px 2px 0;
+}
+
+.note{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.warning{
+  background:#fffbeb;
+  border:1px solid #fde68a;
+  color:#92400e;
+  padding:12px 14px;
+  border-radius:10px;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.result-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+  font-size:14px;
+}
+
+.result-table th,
+.result-table td{
+  border-bottom:1px solid var(--line);
+  padding:10px;
+  text-align:left;
+  vertical-align:top;
+}
+
+.result-table th{
+  background:#f9fafb;
+  font-weight:700;
+}
+
+.match-good{
+  color:var(--ok);
+  font-weight:700;
+}
+
+.match-warn{
+  color:var(--warning);
+  font-weight:700;
+}
+
+.empty{
+  color:var(--muted);
+  padding:18px 0;
+}
+
+footer{
+  margin-top:50px;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
+
+@media(max-width:700px){
+  .form-row{
+    grid-template-columns:1fr;
+  }
+
+  .nav{
+    gap:14px;
+    flex-wrap:wrap;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="link.html">期刊</a>
+    <a href="literature.html">文献</a>
+    <a href="monitor.html">监控</a>
+    <a class="active" href="nmr.html">NMR</a>
+    <a href="otherlinks.html">Other</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>🧪 NMR 杂质峰检索</h1>
+    <p>先选择氘代试剂，再查看标准溶剂峰、水峰，并按 ppm 初步匹配常见杂质峰。</p>
+  </div>
+
+  <div class="panel">
+    <div class="section-title">Step 1：选择氘代试剂</div>
+
+    <div class="form-row">
+      <label for="solventSelect">氘代试剂</label>
+      <select id="solventSelect">
+        <option value="CDCl3">氘代氯仿 / CDCl3</option>
+        <option value="DMSO-d6">氘代二甲基亚砜 / DMSO-d6</option>
+        <option value="acetone-d6">氘代丙酮 / acetone-d6</option>
+        <option value="CD3CN">氘代乙腈 / CD3CN</option>
+        <option value="CD3OD">氘代甲醇 / CD3OD</option>
+        <option value="D2O">重水 / D2O</option>
+        <option value="C6D6">氘代苯 / C6D6</option>
+        <option value="CD2Cl2">氘代二氯甲烷 / CD2Cl2</option>
+        <option value="THF-d8">氘代四氢呋喃 / THF-d8</option>
+        <option value="toluene-d8">氘代甲苯 / toluene-d8</option>
+        <option value="C6D5Cl">氘代氯苯 / C6D5Cl</option>
+        <option value="TFE-d3">氘代三氟乙醇 / TFE-d3</option>
+      </select>
+    </div>
+
+    <div class="note">
+      当前版本先使用固定选项，避免因为 DMSO、dmso-d6、氘代DMSO、(CD3)2SO 等写法不同造成误判。
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-title">Step 2：当前氘代试剂标准信息</div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="k">当前氘代试剂</div>
+        <div class="v" id="currentSolvent">-</div>
+      </div>
+
+      <div class="info-card">
+        <div class="k">英文名 / 其他写法</div>
+        <div class="v" id="aliases">-</div>
+      </div>
+
+      <div class="info-card">
+        <div class="k">¹H 残余溶剂峰</div>
+        <div class="v" id="hPeak">-</div>
+      </div>
+
+      <div class="info-card">
+        <div class="k">¹³C 溶剂峰</div>
+        <div class="v" id="cPeak">-</div>
+      </div>
+
+      <div class="info-card">
+        <div class="k">水峰</div>
+        <div class="v" id="waterPeak">-</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;" class="warning" id="solventNote">
+      -
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-title">Step 3：选择核种与输入未知峰</div>
+
+    <div class="form-row">
+      <label for="nucleusSelect">核种</label>
+      <select id="nucleusSelect">
+        <option value="1H">¹H NMR</option>
+        <option value="13C">¹³C NMR</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="ppmInput">未知峰 ppm</label>
+      <input id="ppmInput" placeholder="例如：4.12 或 4.12, 2.05, 1.26">
+    </div>
+
+    <div class="form-row">
+      <label for="toleranceInput">容差 ppm</label>
+      <input id="toleranceInput" value="0.03">
+    </div>
+
+    <button class="btn" onclick="searchPeaks()">检索候选杂质</button>
+
+    <div class="note" style="margin-top:12px;">
+      ¹H 默认容差建议 ±0.03 ppm；¹³C 默认容差建议 ±0.3 ppm。单峰只能作为提示，多峰同时命中才更适合确认。
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-title">Step 4：候选结果</div>
+    <div id="resultArea" class="empty">请输入 ppm 后点击检索。</div>
+  </div>
+
+  <footer>
+    © <span id="year"></span> yangjh0421
+  </footer>
+
+</div>
+
+<script>
+const solventData = {
+  "CDCl3": {
+    cn: "氘代氯仿",
+    en: "chloroform-d",
+    aliases: ["CDCl3", "chloroform-d", "chloroform-d1", "deuterated chloroform"],
+    h: "7.26 ppm",
+    c: "77.16 ppm",
+    water: "约 1.56 ppm",
+    note: "CDCl3 中常见误判包括水峰、硅脂峰、油脂峰、二氯甲烷、乙酸乙酯、正己烷等。"
+  },
+  "DMSO-d6": {
+    cn: "氘代二甲基亚砜",
+    en: "dimethyl sulfoxide-d6",
+    aliases: ["DMSO-d6", "(CD3)2SO", "deuterated DMSO"],
+    h: "2.50 ppm",
+    c: "39.52 ppm",
+    water: "约 3.33 ppm",
+    note: "DMSO-d6 中水峰常在 3.3 ppm 附近，但会随样品含水量、氢键和温度发生漂移。"
+  },
+  "acetone-d6": {
+    cn: "氘代丙酮",
+    en: "acetone-d6",
+    aliases: ["acetone-d6", "(CD3)2CO", "deuterated acetone"],
+    h: "2.05 ppm",
+    c: "29.84, 206.26 ppm",
+    water: "约 2.84 ppm",
+    note: "acetone-d6 中残余丙酮峰和水峰都比较常见，判断杂质时应先排除这两类信号。"
+  },
+  "CD3CN": {
+    cn: "氘代乙腈",
+    en: "acetonitrile-d3",
+    aliases: ["CD3CN", "MeCN-d3", "acetonitrile-d3"],
+    h: "1.94 ppm",
+    c: "1.32, 118.26 ppm",
+    water: "约 2.13 ppm",
+    note: "CD3CN 中水峰与部分脂肪族杂质峰可能接近，需要结合多峰判断。"
+  },
+  "CD3OD": {
+    cn: "氘代甲醇",
+    en: "methanol-d4",
+    aliases: ["CD3OD", "MeOD", "methanol-d4"],
+    h: "3.31 ppm",
+    c: "49.00 ppm",
+    water: "约 4.87 ppm",
+    note: "CD3OD 中交换性氢可能不稳定，OH、NH 等峰不宜单独用于定量或确认。"
+  },
+  "D2O": {
+    cn: "重水",
+    en: "deuterium oxide",
+    aliases: ["D2O", "heavy water", "deuterium oxide"],
+    h: "HDO 约 4.79 ppm",
+    c: "无常规 13C 溶剂峰",
+    water: "HDO 约 4.79 ppm",
+    note: "D2O 中 HDO 峰是最重要的背景峰；可交换氢通常会发生 H/D 交换。"
+  },
+  "C6D6": {
+    cn: "氘代苯",
+    en: "benzene-d6",
+    aliases: ["C6D6", "benzene-d6"],
+    h: "7.16 ppm",
+    c: "128.06 ppm",
+    water: "约 0.40 ppm",
+    note: "C6D6 中芳香区峰较多，判断芳香族杂质时尤其要注意重叠。"
+  },
+  "CD2Cl2": {
+    cn: "氘代二氯甲烷",
+    en: "dichloromethane-d2",
+    aliases: ["CD2Cl2", "methylene chloride-d2", "dichloromethane-d2"],
+    h: "5.32 ppm",
+    c: "53.84 ppm",
+    water: "文献中随条件变化较明显",
+    note: "CD2Cl2 挥发性强，样品中常伴随普通 DCM 或其他卤代溶剂残留。"
+  },
+  "THF-d8": {
+    cn: "氘代四氢呋喃",
+    en: "tetrahydrofuran-d8",
+    aliases: ["THF-d8", "tetrahydrofuran-d8"],
+    h: "1.72, 3.58 ppm",
+    c: "25.31, 67.21 ppm",
+    water: "文献中随条件变化较明显",
+    note: "THF-d8 本身有两个主要残余质子信号，判断 THF 或醚类杂质时要先排除溶剂峰。"
+  },
+  "toluene-d8": {
+    cn: "氘代甲苯",
+    en: "toluene-d8",
+    aliases: ["toluene-d8", "C7D8"],
+    h: "2.08, 6.97, 6.99, 7.01, 7.09 ppm",
+    c: "20.43, 125.13, 127.96, 128.25, 128.87, 137.48 ppm",
+    water: "文献中随条件变化较明显",
+    note: "toluene-d8 在脂肪区和芳香区都有残余峰，芳香区匹配时需要特别小心。"
+  },
+  "C6D5Cl": {
+    cn: "氘代氯苯",
+    en: "chlorobenzene-d5",
+    aliases: ["C6D5Cl", "chlorobenzene-d5"],
+    h: "6.96, 7.14 ppm",
+    c: "125.96, 126.28, 129.26, 134.19 ppm",
+    water: "文献中随条件变化较明显",
+    note: "C6D5Cl 芳香区有多个溶剂信号，芳香族杂质检索需要结合多峰。"
+  },
+  "TFE-d3": {
+    cn: "氘代三氟乙醇",
+    en: "trifluoroethanol-d3",
+    aliases: ["TFE-d3", "trifluoroethanol-d3", "CF3CD2OD"],
+    h: "5.02, 3.88 ppm",
+    c: "61.50 ppm",
+    water: "文献中随条件变化较明显",
+    note: "TFE-d3 可能影响交换性氢和氢键体系的峰位，判断时需要结合样品性质。"
+  }
+};
+
+const impurityPeaks = [
+  {
+    solvent:"CDCl3",
+    nucleus:"1H",
+    name:"ethyl acetate",
+    cn:"乙酸乙酯",
+    abbr:"EtOAc / EA",
+    peaks:[4.12, 2.05, 1.26],
+    allPeaks:"4.12 q, 2.05 s, 1.26 t",
+    note:"若三个峰同时出现，并且积分约为 2:3:3，更支持乙酸乙酯残留。"
+  },
+  {
+    solvent:"CDCl3",
+    nucleus:"1H",
+    name:"dichloromethane",
+    cn:"二氯甲烷",
+    abbr:"DCM / CH2Cl2",
+    peaks:[5.30],
+    allPeaks:"5.30 s",
+    note:"单峰，需结合样品制备过程判断。"
+  },
+  {
+    solvent:"CDCl3",
+    nucleus:"1H",
+    name:"methanol",
+    cn:"甲醇",
+    abbr:"MeOH",
+    peaks:[3.49],
+    allPeaks:"3.49 s",
+    note:"OH 峰可能交换和漂移，不建议只靠 OH 峰判断。"
+  },
+  {
+    solvent:"CDCl3",
+    nucleus:"1H",
+    name:"n-hexane",
+    cn:"正己烷",
+    abbr:"hexane",
+    peaks:[1.26, 0.88],
+    allPeaks:"1.26 m, 0.88 t",
+    note:"常见于柱层析或石油醚残留，脂肪区容易与油脂重叠。"
+  },
+  {
+    solvent:"CDCl3",
+    nucleus:"1H",
+    name:"triethylamine",
+    cn:"三乙胺",
+    abbr:"Et3N / TEA",
+    peaks:[2.53, 1.03],
+    allPeaks:"2.53 q, 1.03 t",
+    note:"若同时出现 q/t 且积分约为 6:9，可考虑三乙胺。"
+  },
+  {
+    solvent:"DMSO-d6",
+    nucleus:"1H",
+    name:"water",
+    cn:"水",
+    abbr:"H2O",
+    peaks:[3.33],
+    allPeaks:"约 3.33",
+    note:"DMSO-d6 中水峰常见，位置会漂移。"
+  },
+  {
+    solvent:"DMSO-d6",
+    nucleus:"1H",
+    name:"ethyl acetate",
+    cn:"乙酸乙酯",
+    abbr:"EtOAc / EA",
+    peaks:[4.03, 1.99, 1.17],
+    allPeaks:"4.03 q, 1.99 s, 1.17 t",
+    note:"多峰同时命中时更可靠。"
+  },
+  {
+    solvent:"acetone-d6",
+    nucleus:"1H",
+    name:"water",
+    cn:"水",
+    abbr:"H2O",
+    peaks:[2.84],
+    allPeaks:"约 2.84",
+    note:"acetone-d6 中水峰常见。"
+  },
+  {
+    solvent:"CD3CN",
+    nucleus:"1H",
+    name:"water",
+    cn:"水",
+    abbr:"H2O",
+    peaks:[2.13],
+    allPeaks:"约 2.13",
+    note:"CD3CN 中水峰常见。"
+  },
+  {
+    solvent:"CD3OD",
+    nucleus:"1H",
+    name:"water",
+    cn:"水",
+    abbr:"H2O",
+    peaks:[4.87],
+    allPeaks:"约 4.87",
+    note:"CD3OD 中水峰/HDO 峰常见。"
+  },
+  {
+    solvent:"CDCl3",
+    nucleus:"13C",
+    name:"ethyl acetate",
+    cn:"乙酸乙酯",
+    abbr:"EtOAc / EA",
+    peaks:[171.36, 60.41, 20.66, 14.21],
+    allPeaks:"171.36, 60.41, 20.66, 14.21",
+    note:"13C 可作为辅助确认，但灵敏度较低。"
+  }
+];
+
+function updateSolventInfo(){
+  const solventId = document.getElementById("solventSelect").value;
+  const s = solventData[solventId];
+
+  document.getElementById("currentSolvent").textContent = `${s.cn} / ${solventId}`;
+  document.getElementById("aliases").innerHTML = s.aliases.map(x => `<span class="badge">${x}</span>`).join("");
+  document.getElementById("hPeak").textContent = s.h;
+  document.getElementById("cPeak").textContent = s.c;
+  document.getElementById("waterPeak").textContent = s.water;
+  document.getElementById("solventNote").textContent = s.note;
+}
+
+function updateToleranceByNucleus(){
+  const nucleus = document.getElementById("nucleusSelect").value;
+  document.getElementById("toleranceInput").value = nucleus === "13C" ? "0.3" : "0.03";
+}
+
+function parsePpmInput(text){
+  return text
+    .split(/[,，\s]+/)
+    .map(x => parseFloat(x))
+    .filter(x => !isNaN(x));
+}
+
+function minDiff(inputPeaks, refPeaks){
+  let best = Infinity;
+  inputPeaks.forEach(p => {
+    refPeaks.forEach(r => {
+      const d = Math.abs(p - r);
+      if(d < best) best = d;
+    });
+  });
+  return best;
+}
+
+function countMatches(inputPeaks, refPeaks, tol){
+  let count = 0;
+  const matched = [];
+
+  inputPeaks.forEach(p => {
+    let bestRef = null;
+    let bestDiff = Infinity;
+
+    refPeaks.forEach(r => {
+      const d = Math.abs(p - r);
+      if(d <= tol && d < bestDiff){
+        bestDiff = d;
+        bestRef = r;
+      }
+    });
+
+    if(bestRef !== null){
+      count++;
+      matched.push(`${p} → ${bestRef} (Δ ${bestDiff.toFixed(3)})`);
+    }
+  });
+
+  return {count, matched};
+}
+
+function searchPeaks(){
+  const solventId = document.getElementById("solventSelect").value;
+  const nucleus = document.getElementById("nucleusSelect").value;
+  const inputText = document.getElementById("ppmInput").value;
+  const tol = parseFloat(document.getElementById("toleranceInput").value);
+  const inputPeaks = parsePpmInput(inputText);
+  const area = document.getElementById("resultArea");
+
+  if(inputPeaks.length === 0){
+    area.innerHTML = `<div class="empty">请先输入一个或多个 ppm 数值。</div>`;
+    return;
+  }
+
+  const rows = impurityPeaks
+    .filter(x => x.solvent === solventId && x.nucleus === nucleus)
+    .map(x => {
+      const m = countMatches(inputPeaks, x.peaks, tol);
+      return {
+        ...x,
+        matchCount:m.count,
+        matched:m.matched,
+        diff:minDiff(inputPeaks, x.peaks)
+      };
+    })
+    .filter(x => x.matchCount > 0)
+    .sort((a,b) => {
+      if(b.matchCount !== a.matchCount) return b.matchCount - a.matchCount;
+      return a.diff - b.diff;
+    });
+
+  if(rows.length === 0){
+    area.innerHTML = `<div class="empty">当前溶剂和核种下没有匹配结果。可以适当放宽容差，或换用多峰确认。</div>`;
+    return;
+  }
+
+  let html = `
+    <table class="result-table">
+      <thead>
+        <tr>
+          <th>候选杂质</th>
+          <th>命中情况</th>
+          <th>全部参考峰</th>
+          <th>判断建议</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  rows.forEach(r => {
+    const level = r.matchCount >= 2 ? "match-good" : "match-warn";
+    const label = r.matchCount >= 2 ? "多峰命中" : "单峰命中";
+
+    html += `
+      <tr>
+        <td>
+          <strong>${r.cn}</strong><br>
+          ${r.name}<br>
+          <span class="badge">${r.abbr}</span>
+        </td>
+        <td>
+          <span class="${level}">${label}：${r.matchCount} 个</span><br>
+          ${r.matched.join("<br>")}
+        </td>
+        <td>${r.allPeaks}</td>
+        <td>${r.note}</td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table>`;
+  area.innerHTML = html;
+}
+
+document.getElementById("solventSelect").addEventListener("change", updateSolventInfo);
+document.getElementById("nucleusSelect").addEventListener("change", updateToleranceByNucleus);
+document.getElementById("year").textContent = new Date().getFullYear();
+
+updateSolventInfo();
+</script>
+
+</body>
+</html>

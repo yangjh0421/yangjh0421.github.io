@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PaperLens</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>PaperLens</h1>
+      <p class="desc">一键提取论文关键信息并在右侧面板查看。</p>
+
+      <button id="parseBtn">解析当前页面</button>
+      <button id="openPanelBtn" class="secondary">打开侧边面板</button>
+      <a href="options.html" target="_blank" rel="noreferrer">设置</a>
+
+      <pre id="status" aria-live="polite">等待操作…</pre>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
